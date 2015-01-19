@@ -103,7 +103,7 @@ patch.antialiased      : True    # render patches in antialised (no jaggies)
 # The font.size property is the default font size for text, given in pts.
 # 12pt is the standard value.
 #
-#font.family          : monospace
+font.family          : sans-serif
 #font.style          : normal
 #font.variant        : normal
 #font.weight         : medium
@@ -118,7 +118,7 @@ patch.antialiased      : True    # render patches in antialised (no jaggies)
 #font.sans-serif     : Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif
 #font.cursive        : Apple Chancery, Textile, Zapf Chancery, Sand, cursive
 #font.fantasy        : Comic Sans MS, Chicago, Charcoal, Impact, Western, fantasy
-#font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
+font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
 
 ### TEXT
 # text properties used by text.Text.  See
@@ -181,7 +181,7 @@ patch.antialiased      : True    # render patches in antialised (no jaggies)
 #mathtext.it  : serif:italic
 #mathtext.bf  : serif:bold
 #mathtext.sf  : sans
-#mathtext.fontset : cm # Should be 'cm' (Computer Modern), 'stix',
+mathtext.fontset : stixsans # Should be 'cm' (Computer Modern), 'stix',
                        # 'stixsans' or 'custom'
 #mathtext.fallback_to_cm : True  # When True, use symbols from the Computer Modern
                                  # fonts when a symbol can not be found in one of
@@ -285,7 +285,7 @@ figure.edgecolor : 0.50   # figure edgecolor
 #figure.subplot.bottom  : 0.1    # the bottom of the subplots of the figure
 #figure.subplot.top     : 0.9    # the top of the subplots of the figure
 #figure.subplot.wspace  : 0.2    # the amount of width reserved for blank space between subplots
-figure.subplot.hspace  : 0.5    # the amount of height reserved for white space between subplots
+figure.subplot.hspace  : 0.3    # the amount of height reserved for white space between subplots
 
 ### IMAGES
 #image.aspect : equal             # equal | auto | a number
