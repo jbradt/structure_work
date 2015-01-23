@@ -118,7 +118,7 @@ font.family          : sans-serif
 #font.sans-serif     : Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif
 #font.cursive        : Apple Chancery, Textile, Zapf Chancery, Sand, cursive
 #font.fantasy        : Comic Sans MS, Chicago, Charcoal, Impact, Western, fantasy
-font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
+#font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, Terminal, monospace
 
 ### TEXT
 # text properties used by text.Text.  See
@@ -128,7 +128,7 @@ font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, T
 #text.color          : black
 
 ### LaTeX customizations. See http://www.scipy.org/Wiki/Cookbook/Matplotlib/UsingTex
-#text.usetex         : False  # use latex for all text handling. The following fonts
+#text.usetex         : True  # use latex for all text handling. The following fonts
                               # are supported through the usual rc parameter settings:
                               # new century schoolbook, bookman, times, palatino,
                               # zapf chancery, charter, serif, sans-serif, helvetica,
@@ -181,7 +181,7 @@ font.monospace      : Andale Mono, Nimbus Mono L, Courier New, Courier, Fixed, T
 #mathtext.it  : serif:italic
 #mathtext.bf  : serif:bold
 #mathtext.sf  : sans
-mathtext.fontset : stixsans # Should be 'cm' (Computer Modern), 'stix',
+#mathtext.fontset : stixsans # Should be 'cm' (Computer Modern), 'stix',
                        # 'stixsans' or 'custom'
 #mathtext.fallback_to_cm : True  # When True, use symbols from the Computer Modern
                                  # fonts when a symbol can not be found in one of
