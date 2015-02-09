@@ -1,0 +1,192 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{siunitx}
+\usepackage{cancel}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{tikz}
+\usepackage{float}
+
+\usepackage{vletters}
+%\usepackage{simplewick}
+\usepackage{wick}
+
+\usepackage{enumitem}
+\setlist[enumerate]{label=(\alph*)}
+
+% Formatting options 
+\frenchspacing
+% \setlength{\parindent}{0 ex}
+% \setlength{\parskip}{3 ex plus 2 ex minus 1 ex}
+
+% Defined macros
+
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\perm}{\mathit{\hat{P}}}
+
+\newcommand{\degree}[0]{\ensuremath{^\circ}\xspace}
+\renewcommand{\implies}{\Rightarrow}
+\newcommand{\eval}[1]{\ensuremath{\left<#1\right>}}
+\newcommand{\ket}[1]{\ensuremath{\left| #1 \right>}}
+\newcommand{\bra}[1]{\ensuremath{\left< #1 \right|}}
+\newcommand{\mel}[3]{\ensuremath{\left<#1 \middle| #2 \middle| #3 \right>}}
+\newcommand{\proj}[2]{\ensuremath{\left<#1 \middle| #2 \right>}}
+
+\newcommand{\pmat}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+
+\newcommand{\su}[0]{\ensuremath{\uparrow}}
+\newcommand{\sd}[0]{\ensuremath{\downarrow}}
+
+\newcommand{\pder}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\ppder}[2]{\ensuremath{\frac{\partial^2 #1}{\partial #2^2}}}
+\newcommand{\ppmder}[3]{\ensuremath{\frac{\partial^2 #1}{\partial #2 \partial #3}}}
+
+\newcommand{\pderc}[3]{\ensuremath{\left( \frac{\partial #1}{\partial #2} \right)_{\!\!#3}}}
+\newcommand{\ppmderc}[4]{\ensuremath{\left( \frac{\partial^2 #1}{\partial #2 \partial #3} \right)_{\!\!#4}}}
+
+\newcommand{\phias}[0]{\ensuremath{\Phi^\text{AS}}}
+\newcommand{\phisub}[2]{\ensuremath{\phi_{#1}\!\left(#2\right)}}
+\newcommand{\psisub}[2]{\ensuremath{\psi_{#1}\!\left(#2\right)}}
+\newcommand{\phisubs}[2]{\ensuremath{\phi^*_{#1}\!\left(#2\right)}}
+\newcommand{\psisubs}[2]{\ensuremath{\psi^*_{#1}\!\left(#2\right)}}
+
+\newcommand{\ah}[1]{\ensuremath{a_{#1}}}
+\newcommand{\ad}[1]{\ensuremath{a^{\dagger}_{#1}}}
+
+% Titles and headers
+
+\title{Phy 981 Assignment 3}
+\author{Josh Bradt}
+\date{February 11, 2015}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\makeatother
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\chead{\footnotesize \MakeUppercase{\thetitle}} \rhead{\footnotesize\thepage}
+\cfoot{}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+\maketitle
+
+\section*{Exercise 5}
+
+	\begin{enumerate}
+		\item (TO DO)
+
+		\item The normalization integral is:
+		\begin{align*}
+			\proj{\Phi_0}{\Phi_0} &= \prod_{i=1}^n \prod_{j=1}^n \mel{0}{a_{\alpha_i} a^\dagger_{\alpha_j}}{0} \\
+								  &= \prod_{i=1}^n \prod_{j=1}^n \left[ \cancelto{0}{\mel{0}{\left\{ a_{\alpha_i} a^\dagger_{\alpha_j} \right\}}{0}} + \mel{0}{\left\{ \wick{1}{<1a_{\alpha_i} >1a^\dagger_{\alpha_j}} \right\}}{0} \right] \\
+								  &= \prod_{i=1}^n \prod_{j=1}^n \delta_{ij} = \delta_{ij}
+		\end{align*}
+	\end{enumerate}
+
+\section*{Exercise 6}
+
+	For the one-body matrix element, use Wick's theorem:
+	\begin{equation*}
+		\mel{\alpha_1\alpha_2}{\hat F}{\alpha_1 \alpha_2} = \sum_{\alpha\beta} \mel{\alpha}{f}{\beta} \mel{0}{\ah{\alpha_2}\ah{\alpha_1}\ad{\alpha}\ah{\beta}\ad{\alpha_1}\ad{\alpha_2}}{0}.
+	\end{equation*}
+	To keep things simple, I'll organize the contractions in a table:
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c | c}
+			$\wick{211}{<1a_{\alpha_2} <2a_{\alpha_1} >2a^\dagger_\alpha <3a_\beta >1a^\dagger_{\alpha_1} >3a^\dagger_{\alpha_2}}$ & $-\delta_{\alpha_1\alpha_2} \delta_{\alpha\alpha_1} \delta_{\beta\alpha_2}$ \\
+			$\wick{121}{<1a_{\alpha_2} <2a_{\alpha_1} >1a^\dagger_\alpha <3a_\beta >2a^\dagger_{\alpha_1} >3a^\dagger_{\alpha_2}}$ & $\delta_{\alpha\alpha_2} \delta_{\beta\alpha_2}$ \\
+			$\wick{211}{<1a_{\alpha_2} <2a_{\alpha_1} >2a^\dagger_\alpha <3a_\beta >3a^\dagger_{\alpha_1} >1a^\dagger_{\alpha_2}}$ & $\delta_{\alpha\alpha_1} \delta_{\beta\alpha_1}$ \\
+			$\wick{121}{<1a_{\alpha_2} <2a_{\alpha_1} >1a^\dagger_\alpha <3a_\beta >3a^\dagger_{\alpha_1} >2a^\dagger_{\alpha_2}}$ & $-\delta_{\alpha_1\alpha_2} \delta_{\alpha\alpha_2} \delta_{\beta\alpha_1}$ \\
+		\end{tabular}
+	\end{table}
+	\noindent Since $\alpha_1 \neq \alpha_2$, only the second and third terms are nonzero. Thus,
+	\begin{gather}
+		\boxed{\mel{\alpha_1\alpha_2}{\hat F}{\alpha_1 \alpha_2} = \mel{\alpha_1}{\hat f}{\alpha_2} + \mel{\alpha_2}{\hat f}{\alpha_2}}
+	\end{gather}
+	just as in the previous exercises.
+
+	For the two-body operator,
+	\begin{equation*}
+		\mel{\alpha_1\alpha_2}{\hat G}{\alpha_1\alpha_2} = \frac{1}{4} \sum_{\alpha\beta\gamma\delta} \mel{\alpha\beta}{g}{\gamma\delta} 
+			\mel{0}{a_{\alpha_2} a_{\alpha_1} a^\dagger_{\alpha} a^\dagger_\beta a_\delta a_\gamma a^\dagger_{\alpha_1} a^\dagger_{\alpha_2}}{0}.
+	\end{equation*}
+	The nonzero contractions are:
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c | c}
+			$\wick{1212}{<1a_{\alpha_2} <2a_{\alpha_1} >1a^\dagger_\alpha >2a^\dagger_\beta <3a_\delta <4a_\gamma >3a^\dagger_{\alpha_1} >4a^\dagger_{\alpha_2}}$ 
+				& $\delta_{\alpha\alpha_2} \delta_{\beta\alpha_1} \delta_{\gamma\alpha_2} \delta_{\delta \alpha_1}$ \\
+			$\wick{1221}{<1a_{\alpha_2} <2a_{\alpha_1} >1a^\dagger_\alpha >2a^\dagger_\beta <3a_\delta <4a_\gamma >4a^\dagger_{\alpha_1} >3a^\dagger_{\alpha_2}}$ 
+				& $-\delta_{\alpha\alpha_2} \delta_{\beta\alpha_1} \delta_{\gamma\alpha_1} \delta_{\delta \alpha_2}$ \\
+			$\wick{2112}{<1a_{\alpha_2} <2a_{\alpha_1} >2a^\dagger_\alpha >1a^\dagger_\beta <3a_\delta <4a_\gamma >3a^\dagger_{\alpha_1} >4a^\dagger_{\alpha_2}}$
+				& $-\delta_{\alpha\alpha_1} \delta_{\beta\alpha_2} \delta_{\gamma\alpha_2} \delta_{\delta \alpha_1}$ \\
+			$\wick{2121}{<1a_{\alpha_2} <2a_{\alpha_1} >2a^\dagger_\alpha >1a^\dagger_\beta <3a_\delta <4a_\gamma >4a^\dagger_{\alpha_1} >3a^\dagger_{\alpha_2}}$
+				& $\delta_{\alpha\alpha_1} \delta_{\beta\alpha_2} \delta_{\gamma\alpha_1} \delta_{\delta \alpha_2}$ \\
+		\end{tabular}
+	\end{table}
+	\noindent This means that
+	\begin{multline*}
+		\mel{\alpha_1\alpha_2}{\hat G}{\alpha_1\alpha_2} = \frac{1}{4} \left\{
+			 \mel{\alpha_2\alpha_1}{g}{\alpha_2\alpha_1}
+			-\mel{\alpha_2\alpha_1}{g}{\alpha_1\alpha_2} \right. \\ \left.
+	 	    -\mel{\alpha_1\alpha_2}{g}{\alpha_2\alpha_1}
+			+\mel{\alpha_1\alpha_2}{g}{\alpha_1\alpha_2}
+			\right\}
+	\end{multline*}
+	Using the symmetries of the antisymmetrized matrix elements, this reduces to
+	\begin{equation}
+		\boxed{\mel{\alpha_1\alpha_2}{\hat G}{\alpha_1\alpha_2} = \mel{\alpha_1\alpha_2}{g}{\alpha_1\alpha_2}_\text{AS}}
+	\end{equation}
+	which is the same result as we found last week.
+
+\section*{Exercise 7}
+	This form of the one-body part of the Hamiltonian can be found using Wick's theorem.
+	\begin{align*}
+		\hat H_0 &= \sum_{pq} \mel{p}{h_0}{q} a^\dagger_p a_q \\
+				 &= \sum_{pq} \mel{p}{h_0}{q} \left[ \left\{ a^\dagger_p a_q \right\} + \left\{ \wick{1}{<1a^\dagger_p >1a_q} \right\} \right]  \\
+				 &= \sum_{pq} \mel{p}{h_0}{q} \left[ \left\{ a^\dagger_p a_q \right\} + \delta_{pq \in i} \right]  \\
+				 &= \sum_{pq} \mel{p}{h_0}{q} \left\{ a^\dagger_p a_q \right\} + \sum_{i} \mel{i}{h_0}{i} 
+	\end{align*}
+	Here, $p$ and $q$ represent general one-particle states, and $i$ represents a hole state inside the closed shell. The symbol $\delta_{pq \in i}$ is defined as follows:
+	\begin{equation}
+		\delta_{pq \in i} = \begin{cases*}
+			1 & if $p = q$ and $p, q \leq F$ \\
+			0 & otherwise \\
+			\end{cases*}
+		\label{delta}
+	\end{equation}
+	In this situation, the reference vacuum is a some closed-core shell that is relevant to the problem at hand.
+
+\section*{Exercise 8}
+	We can use the same method as above for the two-body operator, but the calculation is a bit more complicated.
+	\begin{equation*}
+		\hat H_I = \frac{1}{4} \sum_{pqrs} \mel{pq}{v}{rs} a^\dagger_p a^\dagger_q a_s a_r
+	\end{equation*}
+	To use Wick's theorem, we'll need all of the possible contractions. I'll list them in the table below along with their associated terms (neglecting the $1/4$).
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c | c | l}
+			$\wick{1}{a^\dagger_p <1a^\dagger_q >1a_s a_r}$ & $\delta_{qs \in i}$ & $+\mel{pi}{v}{ri} a^\dagger_p a_r$ \\
+			$\wick{1}{<1a^\dagger_p a^\dagger_q a_s >1a_r}$ & $\delta_{pr \in i}$ & $+\mel{iq}{v}{is} a^\dagger_q a_s$\\
+			$\wick{1}{a^\dagger_p <1a^\dagger_q a_s >1a_r}$ & $-\delta_{qr \in i}$ & $-\mel{pi}{v}{is} a^\dagger_p a_s$\\
+			$\wick{1}{<1a^\dagger_p a^\dagger_q >1a_s a_r}$ & $-\delta_{ps \in i}$ & $-\mel{iq}{v}{ri} a^\dagger_q a_r$\\
+			$\wick{21}{<1a^\dagger_p <2a^\dagger_q >2a_s >1a_r}$ & $\delta_{pr \in i} \delta_{qs \in j}$ & $+\mel{ij}{v}{ij}$ \\
+			$\wick{12}{<1a^\dagger_p <2a^\dagger_q >1a_s >2a_r}$ & $-\delta_{ps \in i} \delta_{qr \in j}$ & $-\mel{ij}{v}{ji}$ \\
+		\end{tabular}
+	\end{table}
+	\noindent The first four terms in the table can be combined by using the symmetry of the antisymmetric matrix element and the fact that the labels $p,q,r,s$ are arbitrary. The last two terms can also be combined using symmetry. These combine with the uncontracted term to give the final answer:
+	\begin{equation}
+		\boxed{\hat H_I = \frac{1}{4} \sum_{pqrs} \mel{pq}{v}{rs} \left\{ a^\dagger_p a^\dagger_q a_s a_r \right\} + \sum_{pqi} \mel{pi}{v}{qi} \left\{ a^\dagger_p a_q \right\} + \frac{1}{2} \sum_{ij} \mel{ij}{v}{ij}}
+	\end{equation}
+	Here, $p,q,r,s$ are general one-particle states, $i,j$ represent hole states below the Fermi level, and $\delta_{pq \in i}$ is defined as above in (\ref{delta}).
+
+\end{document}
