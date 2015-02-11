@@ -34,7 +34,7 @@
 \newcommand{\eval}[1]{\ensuremath{\left<#1\right>}}
 \newcommand{\ket}[1]{\ensuremath{\left| #1 \right>}}
 \newcommand{\bra}[1]{\ensuremath{\left< #1 \right|}}
-\newcommand{\mel}[3]{\ensuremath{\left<#1 \middle| #2 \middle| #3 \right>}}
+\newcommand{\mel}[3]{\ensuremath{\left<#1 \right| #2 \left| #3 \right>}}
 \newcommand{\proj}[2]{\ensuremath{\left<#1 \middle| #2 \right>}}
 
 \newcommand{\pmat}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
@@ -82,7 +82,64 @@
 \section*{Exercise 5}
 
 	\begin{enumerate}
-		\item (TO DO)
+		\item Using bra-ket notation, the transformation can be written as follows:
+		\begin{equation}
+			\ket{\psi_a} = \sum_{\lambda} C_{a \lambda} \ket{\phi_\lambda}  \label{eq:0dtrans}
+		\end{equation}
+		This makes the orthogonality integral easy to compute.
+		\begin{align*}
+			\proj{\psi_b}{\psi_a} &= \sum_{\lambda \nu} C_{a \lambda} C^*_{\nu b} \proj{\phi_\nu}{\phi_\lambda} \\
+								  &= \sum_{\lambda \nu} C_{a \lambda} C^*_{\nu b} \delta_{\lambda\nu} \\
+								  &= \sum_{\lambda} C_{a \lambda} C^*_{\lambda b} \\
+								  &= (\mathbf{C}\mathbf{C}^*)_{ab} = \delta_{ab}
+		\end{align*}
+		The last step follows from the unitarity of the matrix $\mathbf{C}$. This proves that the new basis is orthonormal.
+
+		Equation (\ref{eq:0dtrans}) shows the transformation for one basis wavefunction. This can be extended intuitively to a one-dimensional vector of wavefunctions,
+		\begin{equation}
+			\pmat{\psi_a \\ \psi_b \\ \vdots \\ \psi_A} = 
+				\begin{pmatrix}
+					C_{a \lambda} & C_{a \mu} & \dots & C_{a A} \\
+					C_{b \lambda} & C_{b \mu} & \dots & C_{b A} \\
+					\vdots        & \vdots    & \ddots& \vdots  \\
+					C_{A \lambda} & C_{A \mu} & \dots & C_{A A} \\
+				\end{pmatrix}
+				\pmat{\phi_\lambda \\ \phi_\mu \\ \vdots \\ \phi_A}.  \label{eq:1dtrans}
+		\end{equation}
+		Importantly, note that the wavefunctions $\{\phi_a, \phi_b, \dots\}$ above really mean $\{\phi_a (x_1), \phi_b (x_1), \dots\}$. This implies that if we vary the argument $x_i$ to the wavefunctions, we can extend (\ref{eq:1dtrans}) to two dimensions:
+		\begin{multline}
+			\begin{pmatrix}
+				\psi_a (x_1) & \psi_a (x_2) & \dots & \psi_a(x_A) \\
+				\psi_b (x_1) & \psi_b (x_2) & \dots & \psi_b(x_A) \\
+				\vdots       & \vdots       & \ddots& \vdots      \\
+				\psi_A (x_1) & \psi_A (x_2) & \dots & \psi_A(x_A) \\
+			\end{pmatrix} = \\
+			\begin{pmatrix}
+				C_{a \lambda} & C_{a \mu} & \dots & C_{a A} \\
+				C_{b \lambda} & C_{b \mu} & \dots & C_{b A} \\
+				\vdots        & \vdots    & \ddots& \vdots  \\
+				C_{A \lambda} & C_{A \mu} & \dots & C_{A A} \\
+			\end{pmatrix}
+			\begin{pmatrix}
+			\phi_\lambda (x_1) & \phi_\lambda (x_2) & \dots & \phi_\lambda(x_A) \\
+			\phi_\mu (x_1) & \phi_\mu (x_2) & \dots & \phi_\mu(x_A) \\
+			\vdots       & \vdots       & \ddots& \vdots      \\
+			\phi_A (x_1) & \phi_A (x_2) & \dots & \phi_A(x_A) \\
+		\end{pmatrix}  \label{eq:2dtrans}
+		\end{multline}
+		The rules of matrix multiplication ensure that we will get the same result for each of the column vectors as we would in (\ref{eq:1dtrans}). 
+
+		Now, for brevity, let (\ref{eq:2dtrans}) be written as
+		\begin{equation}
+			\mathbf{\Psi} = \mathbf{C} \mathbf{\Phi}.
+		\end{equation}
+		The matrices $\mathbf{\Psi}$ and $\mathbf{\Phi}$ are exactly the same as the matrices we would use to find the Slater determinants in the new and old bases, respectively. Thus,
+		\begin{equation*}
+			\ket{\Psi} = \det (\mathbf{\Psi}) = \det(\mathbf{C} \mathbf{\Phi}) = \det(\mathbf{C}) \det(\mathbf{\Phi}) = \det(\mathbf{C}) \ket{\Phi}
+		\end{equation*}
+		The second-to-last step above is valid because $\mathbf{C}$ and $\mathbf{\Phi}$ are square matrices. Therefore, the Slater determinant in the new basis is equal to the determinant in the old basis times the determinant of the transformation matrix.
+
+		Finally, since $\mathbf{C}$ is a unitary matrix, $|\det(\mathbf{C})| = 1$ by definition. Therefore, the two Slater determinants are equal up to a phase.
 
 		\item The normalization integral is:
 		\begin{align*}
@@ -184,9 +241,9 @@
 		\end{tabular}
 	\end{table}
 	\noindent The first four terms in the table can be combined by using the symmetry of the antisymmetric matrix element and the fact that the labels $p,q,r,s$ are arbitrary. The last two terms can also be combined using symmetry. These combine with the uncontracted term to give the final answer:
-	\begin{equation}
+	\begin{equation*}
 		\boxed{\hat H_I = \frac{1}{4} \sum_{pqrs} \mel{pq}{v}{rs} \left\{ a^\dagger_p a^\dagger_q a_s a_r \right\} + \sum_{pqi} \mel{pi}{v}{qi} \left\{ a^\dagger_p a_q \right\} + \frac{1}{2} \sum_{ij} \mel{ij}{v}{ij}}
-	\end{equation}
+	\end{equation*}
 	Here, $p,q,r,s$ are general one-particle states, $i,j$ represent hole states below the Fermi level, and $\delta_{pq \in i}$ is defined as above in (\ref{delta}).
 
 \end{document}
