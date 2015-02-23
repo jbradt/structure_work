@@ -3,3 +3,4 @@
 *latexmk
 *.log
 *.synctex*
+workspace.xml
