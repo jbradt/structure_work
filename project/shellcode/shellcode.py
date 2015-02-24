@@ -23,7 +23,9 @@ def sp_states(pmax, spin):
     s : float
         The projection of the spin
     """
-    for p in range(pmax+1):
+    assert pmax >= 1, 'p levels run over [1,inf)'
+
+    for p in range(1, pmax+1):
         s = -spin
         while s <= spin:
             yield p, s
