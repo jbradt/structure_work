@@ -23,3 +23,15 @@ class TestSpStates(unittest.TestCase):
                         [2, -0.5],
                         [2,  0.5]])
         nptest.assert_equal(st, exp)
+
+
+class TestSlater(unittest.TestCase):
+    """Tests for the slater function"""
+
+    def test_2part_2level_nstates(self):
+        sl = sc.slater(2, 2, 0)
+        self.assertEqual(len(sl), 2)
+
+    def test_4part_4level_nstates(self):
+        sl = sc.slater(4, 4, 0)
+        self.assertEqual(len(sl), 6)
