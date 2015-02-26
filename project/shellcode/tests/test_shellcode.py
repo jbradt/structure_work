@@ -28,10 +28,10 @@ class TestSpStates(unittest.TestCase):
 class TestSlater(unittest.TestCase):
     """Tests for the slater function"""
 
-    def test_2part_2level_nstates(self):
-        sl = sc.slater(2, 2, 0)
+    def test_2part_2level_nstates_paired(self):
+        sl = sc.slater(2, 2, 0, pairs_only=True)
         self.assertEqual(len(sl), 2)
 
-    def test_4part_4level_nstates(self):
-        sl = sc.slater(4, 4, 0)
+    def test_4part_4level_nstates_paired(self):
+        sl = sc.slater(4, 4, 0, pairs_only=True)
         self.assertEqual(len(sl), 6)

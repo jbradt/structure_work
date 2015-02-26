@@ -32,7 +32,7 @@ def sp_states(pmax, spin):
             s += 1
 
 
-def slater(n_particles, p_max, total_m):
+def slater(n_particles, p_max, total_m, pairs_only=False):
     """Finds the possible slater determinants with a given total M.
 
     Parameters
@@ -57,10 +57,17 @@ def slater(n_particles, p_max, total_m):
     for x in combinations(indices, n_particles):
         s = states[list(x)]
         m = s.sum(0)[-1]
-        if m == total_m:
-            sds.append(x)
+        if pairs_only:
+            ps = s[:, 0].astype(int)
+            bins = np.bincount(ps)
+            paired = np.all(bins[bins.nonzero()] == 2)
+            if m == total_m and paired:
+                sds.append(x)
+        else:
+            if total_m == m:
+                sds.append(x)
 
     return np.array(sds)
 
 if __name__ == '__main__':
-    print(slater(2, 4, 0))
+    print(slater(2, 2, 0, pairs_only=True))
