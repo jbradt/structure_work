@@ -35,3 +35,16 @@ class TestSlater(unittest.TestCase):
     def test_4part_4level_nstates_paired(self):
         sl = sc.slater(4, 4, 0, pairs_only=True)
         self.assertEqual(len(sl), 6)
+
+
+class TestSDdelta(unittest.TestCase):
+
+    def test_delta(self):
+        a = np.arange(5) + 1  # would be [1, 2, 3, 4, 5]
+
+        for delta in range(5):
+            b = np.copy(a)
+            for i in range(delta):
+                b[i] = 0  # not in a
+            diff = sc.sd_delta(a, b)
+            self.assertEqual(diff, delta)

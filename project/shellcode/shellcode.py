@@ -1,7 +1,34 @@
 import numpy as np
 from itertools import combinations
+from functools import wraps
 
 nuc_spin = 0.5
+
+
+def numpyize(func):
+    """Decorator that converts all array-like arguments to NumPy ndarrays.
+
+    Parameters
+    ----------
+    func : function(*args, **kwargs)
+        The function to be decorated. Any positional arguments that are non-scalar
+        will be converted to an ndarray
+
+    Returns
+    -------
+    decorated : function(*newargs, **kwargs)
+        The decorated function, with all array-like arguments being ndarrays
+
+    """
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        newargs = list(args)
+        for i, a in enumerate(newargs):
+            if not np.isscalar(a):
+                newargs[i] = np.asanyarray(a)
+        return func(*newargs, **kwargs)
+
+    return decorated
 
 
 def sp_states(pmax, spin):
@@ -69,5 +96,59 @@ def slater(n_particles, p_max, total_m, pairs_only=False):
 
     return np.array(sds)
 
+
+@numpyize
+def sd_delta(a, b):
+    """Counts the number of different single-particle states between two slater determinants.
+
+    Parameters
+    ----------
+    a : array-like
+        The first Slater determinant
+    b : array-like
+        The second Slater determinant
+    """
+    d = 0
+    for el in a:
+        if el not in b:
+            d += 1
+    return d
+
+@numpyize
+def one_body_element(bra, ket, states):
+
+    # ket is | 1 2 3 >, for example
+
+    if np.array_equal(bra, ket):
+        res = 0
+        for i in ket:
+            p = states[i, 0]
+            assert p-1 >= 0, 'invalid p: {}'.format(p)
+            res += (p-1)
+    else:
+        res = 0
+
+    return res
+
+
+@numpyize
+def find_hamiltonian_matrix(sds, states):
+
+    n = np.size(sds, 0)
+    hmat = np.zeros((n, n))
+
+    for i in range(n):
+        for j in range(i, n):
+            hmat[i, j] = one_body_element(sds[j], sds[i], states)
+
+    return hmat
+
+
+def main():
+    states = np.array(list(sp_states(4, 0.5)))
+    dets = slater(4, 4, 0, pairs_only=True)
+    hmat = find_hamiltonian_matrix(dets, states)
+    print(hmat)
+
 if __name__ == '__main__':
-    print(slater(2, 2, 0, pairs_only=True))
+    main()
