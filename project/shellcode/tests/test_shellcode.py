@@ -2,6 +2,7 @@ import unittest
 import shellcode as sc
 import numpy as np
 import numpy.testing as nptest
+from itertools import permutations
 
 class TestSpStates(unittest.TestCase):
     """Tests for sp_states function"""
@@ -48,3 +49,27 @@ class TestSDdelta(unittest.TestCase):
                 b[i] = 0  # not in a
             diff = sc.sd_delta(a, b)
             self.assertEqual(diff, delta)
+
+
+class TestMergeSort(unittest.TestCase):
+    """Tests for the merge_sort function"""
+
+    def test_sort(self):
+        exp = list(range(6))
+
+        for p in permutations(exp, len(exp)):
+            p = list(p)
+            inv, res = sc.merge_sort(p)
+            self.assertListEqual(res, exp)
+
+    def test_inversions(self):
+        e0 = [1, 2, 3, 4]
+        e1 = [1, 2, 4, 3]
+        e2 = [1, 4, 2, 3]
+        e3 = [1, 4, 3, 2]
+
+        cases = [(0, e0), (1, e1), (2, e2), (3, e3)]
+        for i, a in cases:
+            inv, res = sc.merge_sort(a)
+            self.assertEqual(inv, i)
+

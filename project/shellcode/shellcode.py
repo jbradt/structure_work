@@ -31,6 +31,59 @@ def numpyize(func):
     return decorated
 
 
+def merge_sort(a):
+    """Sort the given list, counting the number of inversions necessary to do so.
+
+    This implements a top-down, recursive merge sort. Comparison is done using the
+    less-than operator (<).
+
+    Parameters
+    ----------
+    a : list
+        The unsorted array
+
+    Returns
+    -------
+    inv : int
+        The number of inversions required to sort `a`
+    res : list
+        The sorted version of `a`
+    """
+
+    if len(a) <= 1:
+        # A list of length 0 or 1 is trivially sorted
+        return 0, a
+
+    # Divide the list into two halves
+    n = len(a) // 2
+    l = a[:n]
+    r = a[n:]
+
+    # Recursively sort each half
+    linv, l = merge_sort(l)
+    rinv, r = merge_sort(r)
+
+    # Now merge the two sorted halves together
+    inv = linv + rinv
+    res = []
+
+    while len(l) > 0 and len(r) > 0:
+        if l[0] < r[0]:
+            res.append(l.pop(0))
+        else:
+            # An inversion corresponds to taking an element from r before l is empty
+            res.append(r.pop(0))
+            inv += 1
+
+    # Take care of elements left over in one list after the other is empty
+    if len(l) > 0:
+        res += l
+    if len(r) > 0:
+        res += r
+
+    return inv, res
+
+
 def sp_states(pmax, spin):
     """Generates the single-particle states
 
@@ -129,6 +182,16 @@ def one_body_element(bra, ket, states):
         res = 0
 
     return res
+
+
+@numpyize
+def two_body_element(bra, ket, states):
+
+    diff_num = sd_delta(bra, ket)
+    if diff_num > 2:
+        return 0
+
+    raise NotImplemented()
 
 
 @numpyize
