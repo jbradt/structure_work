@@ -265,7 +265,9 @@
 
 \section*{Part (d)}
 	
-	I wrote a small Python module to calculate the eigenvalues. It can be found in the GitHub repository \url{https://github.com/jbradt/structure_work/} in the directory \texttt{project/shellcode}. This program is perhaps not the most efficient thing in the world, but it was written with simplicity in mind, and not efficiency.
+	I wrote a small Python module to calculate the eigenvalues. It can be found in the GitHub repository \url{https://github.com/jbradt/structure_work/} in the directory \texttt{project/shellcode}. This program is perhaps not the fastest thing in the world, but it was written with simplicity in mind, and not efficiency.
+
+	The program generates the single-particle states for the pairing model internally and then finds the possible Slater determinants. These are then used to find the Hamiltonian matrix, which can then be diagonalized. The interactions for the Hamiltonian are written directly into the code, which is not ideal, but is perhaps less inconvenient in Python than it would be in a compiled language. The usage of the code is documented in the docstrings of the source file itself.
 
 	After running the code for the cases in the previous two parts, I created two graphs of the results for varying values of $g$. Fig.~\ref{fig:2lev_calc} shows the results for two particles and two levels, and Fig.~\ref{fig:4lev_calc} shows the results for four particles and four levels. These results look just like the analytical results from the previous parts.
 
@@ -282,5 +284,20 @@
 		\caption{Calculated eigenvalues for four particles and four levels ($\xi=1$)}
 		\label{fig:4lev_calc}
 	\end{figure}
+
+\section*{Part (e)}
+
+	One way to test the code is to remove the pairing interaction. This is equivalent to letting $g \rightarrow 0$. If I generate the Hamiltonian matrix for four particles and four levels, leaving the pairs-only restriction in place to make comparisons easy, I get the following matrix:
+	\begin{equation*}
+		\mathbf{H} = \begin{pmatrix}
+			2 & 0 & 0 & 0 & 0 & 0  \\
+			0 & 4 & 0 & 0 & 0 & 0  \\
+			0 & 0 & 6 & 0 & 0 & 0  \\
+			0 & 0 & 0 & 6 & 0 & 0  \\
+			0 & 0 & 0 & 0 & 8 & 0  \\
+			0 & 0 & 0 & 0 & 0 & 10 \\
+		\end{pmatrix}.
+	\end{equation*}
+	This matrix is diagonal, so the eigenvalues are $\{2, 4, 6, 6, 8, 10\}$, which are just the single-particle energies, as expected.
 
 \end{document}

@@ -30,11 +30,13 @@ class TestSlater(unittest.TestCase):
     """Tests for the slater function"""
 
     def test_2part_2level_nstates_paired(self):
-        sl = sc.slater(2, 2, 0, pairs_only=True)
+        st = list(sc.sp_states(2, 0.5))
+        sl = sc.slater(2, st, 0, pairs_only=True)
         self.assertEqual(len(sl), 2)
 
     def test_4part_4level_nstates_paired(self):
-        sl = sc.slater(4, 4, 0, pairs_only=True)
+        st = list(sc.sp_states(4, 0.5))
+        sl = sc.slater(4, st, 0, pairs_only=True)
         self.assertEqual(len(sl), 6)
 
 
@@ -73,3 +75,10 @@ class TestMergeSort(unittest.TestCase):
             inv, res = sc.merge_sort(a)
             self.assertEqual(inv, i)
 
+class TestFindEigenvalues(unittest.TestCase):
+    """Tests for the function find_pairing_hamiltonian_eigenvalues"""
+
+    def test_no_pairing(self):
+        res = sc.find_pairing_hamiltonian_eigenvalues(4, 4, 0, True, g=0)
+        exp = np.array([2., 4., 6., 6., 8., 10.])
+        nptest.assert_equal(res, exp)
