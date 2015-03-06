@@ -248,7 +248,7 @@ def state_iterator(states):
                     yield p, q, r, s
 
 
-def pairing_hamiltonian(ket, sds, states):
+def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     """Creates a column of the pairing Hamiltonian matrix.
 
     This acts the Hamiltonian on the provided Slater determinant and produces
@@ -263,6 +263,10 @@ def pairing_hamiltonian(ket, sds, states):
         The possible Slater determinants
     states : list
         The possible single-particle states
+    xi : float
+        The spacing between single-particle states
+    g : float
+        The pairing interaction strength
 
     Returns
     -------
@@ -278,6 +282,15 @@ def pairing_hamiltonian(ket, sds, states):
             # This imposes the pairing restriction
             continue
 
+        if r not in ket or s not in ket:
+            continue
+
+        if p in ket and (p != r and p != s):
+            continue
+
+        if q in ket and (q != r and q != s):
+            continue
+
         try:
             new_ket = ket.copy()
             new_ket = destroy(r, new_ket)
@@ -290,20 +303,20 @@ def pairing_hamiltonian(ket, sds, states):
         inv, sorted_ket = merge_sort(new_ket)
         try:
             i = sds.index(sorted_ket)
-            col[i] += -1 * (-1)**inv
+            col[i] += -g * (-1)**inv
 
         except ValueError:
             # Not in the list of SDs
             continue
 
     i = sds.index(ket)
-    spl = map(lambda x: states[x][0] - 1, ket)
+    spl = map(lambda x: xi * (states[x][0] - 1), ket)
     col[i] += sum(spl)
 
     return col
 
 
-def find_hamiltonian_matrix(sds, states):
+def find_hamiltonian_matrix(sds, states, **kwargs):
     """Finds the Hamiltonian matrix.
 
     Parameters
@@ -312,6 +325,8 @@ def find_hamiltonian_matrix(sds, states):
         The possible Slater determinants
     states : list
         The possible single-particle states
+    *args
+        Additional arguments to be passed on to the Hamiltonian function
 
     Returns
     -------
@@ -323,16 +338,17 @@ def find_hamiltonian_matrix(sds, states):
     hmat = np.zeros((n, n))
 
     for j in range(n):
-        hmat[:, j] = pairing_hamiltonian(sds[j], sds, states)
+        hmat[:, j] = pairing_hamiltonian(sds[j], sds, states, **kwargs)
 
     return hmat
 
 
-def main():
-    states = np.array(list(sp_states(4, 0.5)))
-    dets = slater(4, 4, 0, pairs_only=True)
-    hmat = find_hamiltonian_matrix(dets, states)
-    print(hmat)
+def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=False, **kwargs):
+    states = np.array(list(sp_states(pmax, 0.5)))
+    dets = slater(nparticles, pmax, total_m, pairs_only)
+    hmat = find_hamiltonian_matrix(dets, states, **kwargs)
+    evs = np.linalg.eigvalsh(hmat)
+    return evs
 
 if __name__ == '__main__':
-    main()
+    print(find_pairing_hamiltonian_eigenvalues(4, 4, 0, True))
