@@ -78,11 +78,14 @@
 \cfoot{}
 \renewcommand{\headrulewidth}{0pt}
 
+% Setion numbering
+\renewcommand{\thesection}{\alph{section})}
+
 \begin{document}
 
 \maketitle
 
-\section*{Part (a)}
+\section{Commutators and operators}
 	
 	The Hamiltonian used in the problem is given as
 	\begin{equation*}
@@ -153,7 +156,7 @@
 	\end{equation*}
 	Once again, this is the permutation of pairs of operators, so the result is zero.
 
-\section*{Part (b)}
+\section{Solution for two particles}
 
 	For the effective Hilbert space of the two lowest single-particle states with two particles, there are only two available configurations (assuming that pairs may not be broken): $\ket{1+1-}$ and $\ket{2+2-}$. We can compute the matrix elements for these configurations using Wick's theorem.
 	\begin{gather*}
@@ -180,8 +183,8 @@
 			\toprule
 			Label & State \\
 			\midrule
-			\ket{1} & \ket{1+1-} \\
-			\ket{2} & \ket{2+2-} \\
+			\ket{12} & \ket{1+1-} \\
+			\ket{34} & \ket{2+2-} \\
 			\bottomrule
 		\end{tabular}
 		\caption{Basis states for two particles and two levels}
@@ -190,8 +193,8 @@
 
 	Now, it's easiest to compute each column of the Hamiltonian matrix separately. For brevity, I'll label the basis states as shown in Table~\ref{tab:2basis}. Then,
 	\begin{gather*}
-		\hat H \ket{1} = 2\xi(1-1) \ket{1} - g \left( \ket{1} + \ket{2} \right) = -g \ket{1} - g \ket{2} \\
-		\hat H \ket{2} = 2\xi(2-1) \ket{2} - g \left(\ket{1} + \ket{2}\right) = -g \ket{1} + (2\xi-g) \ket{2}
+		\hat H \ket{12} = 2\xi(1-1) \ket{12} - g \left( \ket{12} + \ket{34} \right) = -g \ket{12} - g \ket{34} \\
+		\hat H \ket{34} = 2\xi(2-1) \ket{34} - g \left(\ket{12} + \ket{34}\right) = -g \ket{12} + (2\xi-g) \ket{34}
 	\end{gather*}
 	This produces the Hamiltonian matrix
 	\begin{equation}
@@ -214,7 +217,7 @@
 		\label{fig:2lev_analytical}
 	\end{figure}
 
-\section*{Part (c)}
+\section{Solution for four particles}
 
 	For four particles and four holes (and no broken pairs), there are six available basis states. These are listed and labeled in Table~\ref{tab:4basis}.
 
@@ -263,7 +266,7 @@
 		\label{fig:4lev_analytical}
 	\end{figure}
 
-\section*{Part (d)}
+\section{Results from code}
 	
 	I wrote a small Python module to calculate the eigenvalues. It can be found in the GitHub repository \url{https://github.com/jbradt/structure_work/} in the directory \texttt{project/shellcode}. This program is perhaps not the fastest thing in the world, but it was written with simplicity in mind, and not efficiency.
 
@@ -285,7 +288,7 @@
 		\label{fig:4lev_calc}
 	\end{figure}
 
-\section*{Part (e)}
+\section{Further tests}
 
 	One way to test the code is to remove the pairing interaction. This is equivalent to letting $g \rightarrow 0$. If I generate the Hamiltonian matrix for four particles and four levels, leaving the pairs-only restriction in place to make comparisons easy, I get the following matrix:
 	\begin{equation*}
@@ -299,5 +302,43 @@
 		\end{pmatrix}.
 	\end{equation*}
 	This matrix is diagonal, so the eigenvalues are $\{2, 4, 6, 6, 8, 10\}$, which are just the single-particle energies, as expected.
+
+	The code can also be tested by putting all of the particles into a single, highly degenerate energy level. According to the assignment, for a single state with degeneracy $\Omega = 2j+1$, the ground state energy is
+	\begin{equation}
+		E_0 = -\frac{g}{4} n (\Omega - n + 2)
+	\end{equation}
+	To test this, I calculated the Slater determinants for a single state with $p=1$ and $j=5/2$, which allows 6 particles to all fit into the ground state. I restricted the calculation to pairs of particles with opposite spin projections (e.g. 1/2 and -1/2). The results are compared for different values of $g$ in Fig.~\ref{fig:gs6}. I performed the same calculation for 8 particles in a state with $j=7/2$, and the results of that calculation are shown in Fig.~\ref{fig:gs8}. In both cases, the lines for the calculated and exact results overlap.
+
+	\begin{figure}[p]
+		\centering
+		\includegraphics{gs6.pdf}
+		\caption{Ground state energy as a function of $g$ for 6 particles in a 6-fold degenerate state}
+		\label{fig:gs6}
+	\end{figure}
+
+	\begin{figure}[p]
+		\centering
+		\includegraphics{gs8.pdf}
+		\caption{Ground state energy as a function of $g$ for 8 particles in an 8-fold degenerate state}
+		\label{fig:gs8}
+	\end{figure}
+
+	Finally, I ran the same sort of calculation as in the previous parts, except for 6 and 8 particles instead of 2 or 4. The results of this are shown in Fig.~\ref{fig:6lev_calc} and Fig.~\ref{fig:8lev_calc}. These follow the same general pattern as we saw for 2 and 4 particles.
+
+	\begin{figure}[p]
+		\centering
+		\includegraphics{calc6.pdf}
+		\caption{Calculated eigenvalues for six particles and six levels ($\xi=1$)}
+		\label{fig:6lev_calc}
+	\end{figure}
+
+	\begin{figure}[p]
+		\centering
+		\includegraphics{calc8.pdf}
+		\caption{Calculated eigenvalues for eight particles and eight levels ($\xi=1$)}
+		\label{fig:8lev_calc}
+	\end{figure}
+
+
 
 \end{document}
