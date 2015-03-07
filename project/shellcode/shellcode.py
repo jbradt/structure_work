@@ -73,7 +73,7 @@ def merge_sort(a):
         else:
             # An inversion corresponds to taking an element from r before l is empty
             res.append(r.pop(0))
-            inv += 1
+            inv += len(l)
 
     # Take care of elements left over in one list after the other is empty
     if len(l) > 0:
@@ -141,7 +141,7 @@ def slater(n_particles, states, total_m, pairs_only=False):
         if pairs_only:
             ps = s[:, 0].astype(int)
             bins = np.bincount(ps)
-            paired = np.all(bins[bins.nonzero()] == 2)
+            paired = np.all(bins[bins.nonzero()] % 2 == 0)
             if m == total_m and paired:
                 sds.append(x)
         else:
@@ -278,7 +278,8 @@ def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     col = [0.0] * len(sds)
 
     for p, q, r, s in state_iterator(states):
-        if states[p][0] != states[q][0] or states[r][0] != states[s][0]:
+        if (states[p][0] != states[q][0] or states[r][0] != states[s][0]
+                or states[p][1] != -states[q][1] or states[r][1] != -states[s][1]):
             # This imposes the pairing restriction
             continue
 
@@ -356,4 +357,9 @@ def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=F
     return evs
 
 if __name__ == '__main__':
-    print(find_pairing_hamiltonian_eigenvalues(4, 4, 0, True))
+    # print(find_pairing_hamiltonian_eigenvalues(6, 6, 0, True, xi=0, g=1))
+    states = np.array(list(sp_states(1, 5/2)))
+    dets = slater(6, states, 0, True)
+    hmat = find_hamiltonian_matrix(dets, states, g=1, xi=0)
+    evs = np.linalg.eigvalsh(hmat)
+    print(evs)

@@ -69,8 +69,10 @@ class TestMergeSort(unittest.TestCase):
         e1 = [1, 2, 4, 3]
         e2 = [1, 4, 2, 3]
         e3 = [1, 4, 3, 2]
+        e4 = [4, 3, 2, 1]
+        e5 = [2, 3, 0, 1, 4, 5]
 
-        cases = [(0, e0), (1, e1), (2, e2), (3, e3)]
+        cases = [(0, e0), (1, e1), (2, e2), (3, e3), (6, e4), (4, e5)]
         for i, a in cases:
             inv, res = sc.merge_sort(a)
             self.assertEqual(inv, i)
