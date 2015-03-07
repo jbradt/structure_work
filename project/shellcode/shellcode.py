@@ -1,8 +1,43 @@
+"""
+PHY 981 Project Code
+====================
+
+This code implements the basic pairing model required for the project.
+
+Main Functions
+--------------
+sp_states
+    Generator to create the single-particle levels
+slater
+    Lists the available Slater determinants
+find_hamiltonian_matrix
+    Finds the Hamiltonian matrix
+find_pairing_hamiltonian_eigenvalues
+    Does all of the above, and then diagonalizes to find the eigenvalues
+
+Examples
+--------
+Find the single-particle states for two doubly-degenerate levels:
+
+    >>> list(sp_states(2, 0.5))
+    [(1, -0.5), (1, 0.5), (2, -0.5), (2, 0.5)]
+
+Find the Slater determinants for this same case with two particles:
+
+    >>> slater(2, list(sp_states(2, 0.5)), 0, pairs_only=True)
+    [[0, 1], [2, 3]]
+
+Calculate the eigenvalues for 4 particles in 4 levels, restricting to only pairs, and letting g=0.
+This does the whole calculation in one step.
+
+    >>> find_pairing_hamiltonian_eigenvalues(4, 4, 0, pairs_only=True, g=0, xi=1)
+    array([  2.,   4.,   6.,   6.,   8.,  10.])
+
+"""
+
 import numpy as np
 from itertools import combinations
 from functools import wraps
-
-nuc_spin = 0.5
 
 
 def numpyize(func):
@@ -37,6 +72,9 @@ def merge_sort(a):
     This implements a top-down, recursive merge sort. Comparison is done using the
     less-than operator (<).
 
+    The sorting algorithm was taken from pseudocode on Wikipedia [1]_, but some modifications were made to count the
+    permutations.
+
     Parameters
     ----------
     a : list
@@ -48,6 +86,10 @@ def merge_sort(a):
         The number of inversions required to sort `a`
     res : list
         The sorted version of `a`
+
+    References
+    ----------
+    .. [1] http://en.wikipedia.org/w/index.php?title=Merge_sort&oldid=649955073#Top-down_implementation_using_lists
     """
 
     if len(a) <= 1:
@@ -71,7 +113,8 @@ def merge_sort(a):
         if l[0] < r[0]:
             res.append(l.pop(0))
         else:
-            # An inversion corresponds to taking an element from r before l is empty
+            # Inversions correspond to taking an element from r before l is empty. Each time this happens,
+            # an element from r must pass by len(l) elements from l.
             res.append(r.pop(0))
             inv += len(l)
 
@@ -263,9 +306,9 @@ def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
         The possible Slater determinants
     states : list
         The possible single-particle states
-    xi : float
+    xi : float, optional
         The spacing between single-particle states
-    g : float
+    g : float, optional
         The pairing interaction strength
 
     Returns
@@ -326,7 +369,7 @@ def find_hamiltonian_matrix(sds, states, **kwargs):
         The possible Slater determinants
     states : list
         The possible single-particle states
-    *args
+    **kwargs
         Additional arguments to be passed on to the Hamiltonian function
 
     Returns
@@ -349,6 +392,23 @@ def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=F
 
     This function just wraps all of the above up into one package.
 
+    Parameters
+    ----------
+    nparticles : int
+        The number of particles
+    pmax : int
+        The number of single-particle levels, or the p value of the highest level
+    total_m : int
+        The total M of the allowed Slater determinants
+    pairs_only : bool, optional
+        Whether to restrict the calculation to pairs only
+    **kwargs
+        The remaining arguments are passed to the Hamiltonian function
+
+    Returns
+    -------
+    evs : ndarray
+        A list of the eigenvalues, which might not be sorted.
     """
     states = np.array(list(sp_states(pmax, 0.5)))
     dets = slater(nparticles, states, total_m, pairs_only)
