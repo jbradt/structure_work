@@ -155,6 +155,44 @@ def sp_states(pmax, spin):
             s += 1
 
 
+def load_interaction(filename):
+    """Reads information about an interaction from the provided file.
+
+    The file is assumed to contain both matrix elements and single-particle states, each on a single line by itself.
+    The single-particle states are assumed to have 6 numbers per line, representing index, n, l, 2j, 2m_j, and Energy,
+    in that order. The matrix elements are assumed to have 5 numbers per line, representing the four single-particle
+    states and the value of the matrix element.
+
+    Lines beginning with '#' are ignored.
+
+    Parameters
+    ----------
+    filename : string
+        The name of the file to be read
+
+    Returns
+    -------
+    states : list
+        The single-particle states
+    mels : list
+        The matrix elements
+    """
+    states = []
+    mels = []
+    with open(filename) as inter:
+        for line in inter:
+            if line[0] == '#':
+                continue
+            parts = [float(x) if '.' in x else int(x) for x in line.split()]
+            if len(parts) == 1:
+                continue
+            elif len(parts) == 6:
+                states.append(parts)
+            elif len(parts) == 5:
+                mels.append(parts)
+    return states, mels
+
+
 @numpyize
 def slater(n_particles, states, total_m, pairs_only=False):
     """Finds the possible slater determinants with a given total M.
