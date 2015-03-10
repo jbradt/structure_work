@@ -29,15 +29,20 @@ class TestSpStates(unittest.TestCase):
 class TestSlater(unittest.TestCase):
     """Tests for the slater function"""
 
-    def test_2part_2level_nstates_paired(self):
-        st = list(sc.sp_states(2, 0.5))
-        sl = sc.slater(2, st, 0, pairs_only=True)
-        self.assertEqual(len(sl), 2)
+    def setUp(self):
+        self.sps, self.mel = sc.load_interaction('../usdb.txt')
 
-    def test_4part_4level_nstates_paired(self):
-        st = list(sc.sp_states(4, 0.5))
-        sl = sc.slater(4, st, 0, pairs_only=True)
-        self.assertEqual(len(sl), 6)
+    def test_2part_0m(self):
+        sl = sc.slater(2, self.sps, 0)
+        self.assertEqual(len(sl), 14)
+
+    def test_3part_05m(self):
+        sl = sc.slater(3, self.sps, 1/2)
+        self.assertEqual(len(sl), 37)
+
+    def test_4part_0m(self):
+        sl = sc.slater(4, self.sps, 0)
+        self.assertEqual(len(sl), 81)
 
 
 class TestSDdelta(unittest.TestCase):
@@ -77,6 +82,7 @@ class TestMergeSort(unittest.TestCase):
             inv, res = sc.merge_sort(a)
             self.assertEqual(inv, i)
 
+@unittest.skip('out of date')
 class TestFindEigenvalues(unittest.TestCase):
     """Tests for the function find_pairing_hamiltonian_eigenvalues"""
 
