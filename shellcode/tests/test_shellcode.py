@@ -4,13 +4,14 @@ import numpy as np
 import numpy.testing as nptest
 from itertools import permutations
 
+
 class TestSpStates(unittest.TestCase):
     """Tests for sp_states function"""
 
     def test_num_states(self):
         for p in range(1, 20):
             st = list(sc.sp_states(p, 0.5))
-            self.assertEqual(len(st), 2*p)
+            self.assertEqual(len(st), 2 * p)
 
     def test_first_state(self):
         """States should start at p=1"""
@@ -20,9 +21,9 @@ class TestSpStates(unittest.TestCase):
     def test_four_states(self):
         st = np.array(list(sc.sp_states(2, 0.5)))
         exp = np.array([[1, -0.5],
-                        [1,  0.5],
+                        [1, 0.5],
                         [2, -0.5],
-                        [2,  0.5]])
+                        [2, 0.5]])
         nptest.assert_equal(st, exp)
 
 
@@ -37,16 +38,23 @@ class TestSlater(unittest.TestCase):
         self.assertEqual(len(sl), 14)
 
     def test_3part_05m(self):
-        sl = sc.slater(3, self.sps, 1/2)
+        sl = sc.slater(3, self.sps, 1 / 2)
         self.assertEqual(len(sl), 37)
 
     def test_4part_0m(self):
         sl = sc.slater(4, self.sps, 0)
         self.assertEqual(len(sl), 81)
 
+    def test_bitrep(self):
+        sl = sc.slater(2, self.sps, 3)
+        exp = [2 ** 1 + 2 ** 11,
+               2 ** 4 + 2 ** 11,
+               2 ** 5 + 2 ** 10,
+               2 ** 9 + 2 ** 11]
+        self.assertListEqual(sl, exp)
+
 
 class TestSDdelta(unittest.TestCase):
-
     def test_delta(self):
         a = np.arange(5) + 1  # would be [1, 2, 3, 4, 5]
 
@@ -81,6 +89,7 @@ class TestMergeSort(unittest.TestCase):
         for i, a in cases:
             inv, res = sc.merge_sort(a)
             self.assertEqual(inv, i)
+
 
 @unittest.skip('out of date')
 class TestFindEigenvalues(unittest.TestCase):
