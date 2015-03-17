@@ -5,28 +5,6 @@ import numpy.testing as nptest
 from itertools import permutations, combinations
 
 
-class TestSpStates(unittest.TestCase):
-    """Tests for sp_states function"""
-
-    def test_num_states(self):
-        for p in range(1, 20):
-            st = list(sc.sp_states(p, 0.5))
-            self.assertEqual(len(st), 2 * p)
-
-    def test_first_state(self):
-        """States should start at p=1"""
-        st = list(sc.sp_states(4, 0.5))
-        self.assertEqual(st[0][0], 1)
-
-    def test_four_states(self):
-        st = np.array(list(sc.sp_states(2, 0.5)))
-        exp = np.array([[1, -0.5],
-                        [1, 0.5],
-                        [2, -0.5],
-                        [2, 0.5]])
-        nptest.assert_equal(st, exp)
-
-
 class TestSlater(unittest.TestCase):
     """Tests for the slater function"""
 
@@ -97,15 +75,6 @@ class TestMergeSort(unittest.TestCase):
             inv, res = sc.merge_sort(a)
             self.assertEqual(inv, i)
 
-
-@unittest.skip('out of date')
-class TestFindEigenvalues(unittest.TestCase):
-    """Tests for the function find_pairing_hamiltonian_eigenvalues"""
-
-    def test_no_pairing(self):
-        res = sc.find_pairing_hamiltonian_eigenvalues(4, 4, 0, True, g=0)
-        exp = np.array([2., 4., 6., 6., 8., 10.])
-        nptest.assert_equal(res, exp)
 
 class TestFindHamiltonianMatrix(unittest.TestCase):
 

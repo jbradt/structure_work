@@ -1,37 +1,21 @@
 """
-PHY 981 Project Code
-====================
+PHY 981 Final Project Code
+==========================
 
-This code implements the basic pairing model required for the project.
+This code finds the energy levels in the sd shell, as directed in the assignment
+for final project version (a).
 
 Main Functions
 --------------
-sp_states
-    Generator to create the single-particle levels
+load_interaction
+    Reads an interaction and single-particle states from the given file.
 slater
-    Lists the available Slater determinants
+    Finds the list of possible Slater determinants with the given total M.
 find_hamiltonian_matrix
-    Finds the Hamiltonian matrix
-find_pairing_hamiltonian_eigenvalues
-    Does all of the above, and then diagonalizes to find the eigenvalues
-
-Examples
---------
-Find the single-particle states for two doubly-degenerate levels:
-
-    >>> list(sp_states(2, 0.5))
-    [(1, -0.5), (1, 0.5), (2, -0.5), (2, 0.5)]
-
-Find the Slater determinants for this same case with two particles:
-
-    >>> slater(2, list(sp_states(2, 0.5)), 0, pairs_only=True)
-    [[0, 1], [2, 3]]
-
-Calculate the eigenvalues for 4 particles in 4 levels, restricting to only pairs, and letting g=0.
-This does the whole calculation in one step.
-
-    >>> find_pairing_hamiltonian_eigenvalues(4, 4, 0, pairs_only=True, g=0, xi=1)
-    array([  2.,   4.,   6.,   6.,   8.,  10.])
+    Finds the Hamiltonian matrix.
+find_eigenvalues
+    Does all of the above, and also diagonalizes the matrix to find the
+    eigenvalues.
 
 """
 
@@ -67,7 +51,20 @@ def numpyize(func):
     return decorated
 
 
+@numpyize
 def is_hermitian(mat):
+    """Checks if the given matrix is Hermitian.
+
+    Parameters
+    ----------
+    mat : array-like
+        A matrix to be checked
+
+    Returns
+    -------
+    bool
+        True if the matrix is Hermitian
+    """
 
     sh = mat.shape
     if len(sh) != 2:
@@ -140,34 +137,6 @@ def merge_sort(a):
         res += r
 
     return inv, res
-
-
-def sp_states(pmax, spin):
-    """Generates the single-particle states
-
-    The states yielded have a quantum number p and spin s where 0 <= p <= pmax and -spin <= s <= spin.
-
-    Parameters
-    ----------
-    pmax : int
-        The maximum of the p quantum number
-    spin : float
-        The magnitude of the spin, e.g. 0.5
-
-    Yields
-    ------
-    p : int
-        The p quantum number
-    s : float
-        The projection of the spin
-    """
-    assert pmax >= 1, 'p levels run over [1,inf)'
-
-    for p in range(1, pmax+1):
-        s = -spin
-        while s <= spin:
-            yield p, s
-            s += 1
 
 
 def load_interaction(filename):
@@ -258,155 +227,6 @@ def sd_delta(a, b):
     return d
 
 
-def destroy(i, ket):
-    """The annihilation operator.
-
-    Parameters
-    ----------
-    i : int
-        The state to be destroyed
-    ket : list
-        The Slater determinant to act on
-
-    Returns
-    -------
-    new_ket : list
-        The Slater determinant after the action of the operator
-
-    Raises
-    ------
-    ValueError
-        If state `i` is not present in `ket`
-    """
-    if i in ket:
-        new_ket = ket.copy()
-        new_ket.remove(i)
-        return new_ket
-    else:
-        raise ValueError('destroying missing state')
-
-
-def create(i, ket):
-    """The creation operator.
-
-    Parameters
-    ----------
-    i : int
-        The state to be created
-    ket : list
-        The Slater determinant to act on
-
-    Returns
-    -------
-    new_ket : list
-        The Slater determinant after the action of the operator
-
-    Raises
-    ------
-    ValueError
-        If state `i` is already present in `ket`. This preserves the
-        Pauli principle.
-    """
-    if i not in ket:
-        new_ket = ket.copy()
-        new_ket.insert(0, i)
-        return new_ket
-    else:
-        raise ValueError('creating state which is already present')
-
-
-def state_iterator(states):
-    """Generator for iterating over single-particle states.
-
-    This can be used to implement the sum in the two-particle operator,
-    i.e. the sum over p<q and r<s for (p, q, r, s) in the single-particle states.
-
-    Parameters
-    ----------
-    states : iterable
-        The single-particle states
-
-    Yields
-    ------
-    (p, q, r, s) : tuple
-        The indices for the sum
-    """
-    for q, st1 in enumerate(states):
-        for p in range(q):
-            for s, st2 in enumerate(states):
-                for r in range(s):
-                    yield p, q, r, s
-
-
-def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
-    """Creates a column of the pairing Hamiltonian matrix.
-
-    This acts the Hamiltonian on the provided Slater determinant and produces
-    a list containing the coefficients of each Slater determinant in the basis
-    for the result.
-
-    Parameters
-    ----------
-    ket : list
-        The Slater determinant to calculate the column for
-    sds : list
-        The possible Slater determinants
-    states : list
-        The possible single-particle states
-    xi : float, optional
-        The spacing between single-particle states
-    g : float, optional
-        The pairing interaction strength
-
-    Returns
-    -------
-    col : list
-        The column of the Hamiltonian matrix
-    """
-
-    assert ket in sds, 'ket missing from possible SDs'
-    col = [0.0] * len(sds)
-
-    for p, q, r, s in state_iterator(states):
-        if (states[p][0] != states[q][0] or states[r][0] != states[s][0]
-                or states[p][1] != -states[q][1] or states[r][1] != -states[s][1]):
-            # This imposes the pairing restriction
-            continue
-
-        if r not in ket or s not in ket:
-            continue
-
-        if p in ket and (p != r and p != s):
-            continue
-
-        if q in ket and (q != r and q != s):
-            continue
-
-        try:
-            new_ket = ket.copy()
-            new_ket = destroy(r, new_ket)
-            new_ket = destroy(s, new_ket)
-            new_ket = create(q, new_ket)
-            new_ket = create(p, new_ket)
-        except ValueError:
-            continue
-
-        inv, sorted_ket = merge_sort(new_ket)
-        try:
-            i = sds.index(sorted_ket)
-            col[i] += -g * (-1)**inv
-
-        except ValueError:
-            # Not in the list of SDs
-            continue
-
-    i = sds.index(ket)
-    spl = map(lambda x: xi * (states[x][0] - 1), ket)
-    col[i] += sum(spl)
-
-    return col
-
-
 def find_hamiltonian_matrix(sds, states, inter):
     """Finds the Hamiltonian matrix.
 
@@ -417,8 +237,7 @@ def find_hamiltonian_matrix(sds, states, inter):
     states : list
         The possible single-particle states
     inter : dict
-        The interaction matrix elements, given as a dictionary mapping
-        {(p, q, r, s): energy}.
+        The interaction matrix elements, given as a dictionary mapping {(p, q, r, s): energy}.
 
     Returns
     -------
@@ -467,10 +286,22 @@ def find_hamiltonian_matrix(sds, states, inter):
     return hmat
 
 
-def find_eigenvalues(num_particles, total_m):
+def find_eigenvalues(num_particles, total_2m):
+    """Calculates the energy levels for the given number of particles and total M.
+
+    This performs the entire calculation. It finds the Slater determinants, calculates the Hamiltonian matrix, and
+    diagonalizes it to find the energies.
+
+    Parameters
+    ----------
+    num_particles : int
+        The number of particles
+    total_2m : float
+        The total spin projection, multiplied by two.
+    """
 
     sps, mel = load_interaction('usdb.txt')
-    sds = slater(num_particles, sps, total_m)
+    sds = slater(num_particles, sps, total_2m / 2)
     print('Found {} slater determinants:'.format(len(sds)),
           sds, sep='\n')
     hc = find_hamiltonian_matrix(sds, sps, mel)
@@ -483,7 +314,7 @@ def find_eigenvalues(num_particles, total_m):
 
 if __name__ == '__main__':
     if len(argv) != 3:
-        exit('Usage: python3 shellcode.py [num_particles] [total_m]')
+        exit('Usage: python3 shellcode.py [num_particles] [2 * total_m]')
 
     int_args = [int(a) for a in argv[1:]]
-    find_eigenvalues(num_particles=int_args[0], total_m=int_args[1])
+    find_eigenvalues(num_particles=int_args[0], total_2m=int_args[1])
