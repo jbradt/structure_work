@@ -337,55 +337,6 @@ def state_iterator(states):
                     yield p, q, r, s
 
 
-def shell_model_hamiltonian(ket, sds, states, inter):
-
-    assert ket in sds, 'ket missing from possible SDs'
-    col = np.zeros(len(sds))
-
-    for p, q, r, s in state_iterator(states):
-
-        if r not in ket or s not in ket:
-            continue
-
-        if p in ket and (p != r and p != s):
-            continue
-
-        if q in ket and (q != r and q != s):
-            continue
-
-        new_ket = ket.copy()
-        new_ket.remove(r)
-        new_ket.remove(s)
-        new_ket.insert(0, q)
-        new_ket.insert(0, p)
-
-        inv, sorted_ket = merge_sort(new_ket)
-
-        try:
-            i = sds.index(sorted_ket)
-            if p <= r:
-                mel = inter[p, q, r, s]
-            else:
-                mel = inter[r, s, p, q]
-
-            col[i] += (-1)**inv * mel
-
-        except ValueError:
-            # Not in the list of SDs
-            continue
-
-        except KeyError:
-            # The matrix element is not in the list from the file
-            # Assume it must be zero
-            continue
-
-    # i = sds.index(ket)
-    # spl = map(lambda x: xi * (states[x][0] - 1), ket)
-    # col[i] += sum(spl)
-
-    return col
-
-
 def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     """Creates a column of the pairing Hamiltonian matrix.
 
@@ -455,7 +406,7 @@ def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     return col
 
 
-def find_hamiltonian_matrix(sds, states, inter, **kwargs):
+def find_hamiltonian_matrix(sds, states, inter):
     """Finds the Hamiltonian matrix.
 
     Parameters
@@ -464,8 +415,9 @@ def find_hamiltonian_matrix(sds, states, inter, **kwargs):
         The possible Slater determinants
     states : list
         The possible single-particle states
-    **kwargs
-        Additional arguments to be passed on to the Hamiltonian function
+    inter : dict
+        The interaction matrix elements, given as a dictionary mapping
+        {(p, q, r, s): energy}.
 
     Returns
     -------
@@ -476,8 +428,36 @@ def find_hamiltonian_matrix(sds, states, inter, **kwargs):
     n = np.size(sds, 0)
     hmat = np.zeros((n, n))
 
-    for j in range(n):
-        hmat[:, j] = shell_model_hamiltonian(sds[j], sds, states, inter)
+    for i, ket in enumerate(sds):
+
+        for (p, q, r, s), int_energy in inter.items():
+
+            if r not in ket or s not in ket:
+                continue
+
+            if p in ket and (p != r and p != s):
+                continue
+
+            if q in ket and (q != r and q != s):
+                continue
+
+            new_ket = ket.copy()
+            new_ket.remove(r)
+            new_ket.remove(s)
+            new_ket.insert(0, q)
+            new_ket.insert(0, p)
+
+            inv, sorted_ket = merge_sort(new_ket)
+
+            try:
+                j = sds.index(sorted_ket)
+
+            except ValueError:
+                # Not in the list of SDs
+                continue
+
+            hmat[i, j] += int_energy * (-1)**inv
+            hmat[j, i] = hmat[i, j]
 
     return hmat
 
@@ -513,7 +493,7 @@ def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=F
 
 if __name__ == '__main__':
     sps, mel = load_interaction('usdb.txt')
-    sds = slater(2, sps, total_m=3)
+    sds = slater(4, sps, total_m=0)
     print('Found {} slater determinants:'.format(len(sds)),
           sds, sep='\n')
     sd_file_rep = (np.array(sds) + 1).tolist()
