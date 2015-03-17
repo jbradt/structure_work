@@ -111,7 +111,7 @@ class TestFindHamiltonianMatrix(unittest.TestCase):
 
     def setUp(self):
         self.sps, self.mel = sc.load_interaction('../usdb.txt')
-        self.sds = sc.slater(2, self.sps, total_m=3)
+        self.sds = sc.slater(4, self.sps, total_m=0)
         self.hmat = sc.find_hamiltonian_matrix(self.sds, self.sps, self.mel)
 
     def test_square(self):

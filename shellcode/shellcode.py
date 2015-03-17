@@ -66,6 +66,20 @@ def numpyize(func):
     return decorated
 
 
+def is_hermitian(mat):
+
+    sh = mat.shape
+    if len(sh) != 2:
+        raise ValueError('must be a 2-D array')
+    if sh[0] != sh[1]:
+        raise ValueError('must be a square matrix')
+
+    if np.allclose(mat.T, mat):
+        return True
+    else:
+        return False
+
+
 def merge_sort(a):
     """Sort the given list, counting the number of inversions necessary to do so.
 
@@ -507,3 +521,6 @@ if __name__ == '__main__':
           sd_file_rep, sep='\n')
     hc = find_hamiltonian_matrix(sds, sps, mel)
     print('The matrix was:', hc, sep='\n')
+    assert is_hermitian(hc), 'the matrix is not Hermitian!'
+    evs = np.linalg.eigvalsh(hc)
+    print(evs)
