@@ -38,7 +38,6 @@ This does the whole calculation in one step.
 import numpy as np
 from itertools import combinations
 from functools import wraps
-from math import copysign
 
 
 def numpyize(func):
@@ -212,8 +211,7 @@ def slater(n_particles, states, total_m):
     Returns
     -------
     sds : list
-        The possible Slater determinants, as integers. Each element is an integer whose bits represent
-        the occupied and unoccupied states.
+        The possible Slater determinants, as lists of indices.
     """
     indices = range(len(states))
 
@@ -223,18 +221,9 @@ def slater(n_particles, states, total_m):
         s = states[x]
         m = s[:, 4].sum() / 2
         if total_m == m:
-            sds.append(np.sum(2**x))
+            sds.append(x.tolist())
 
     return sds
-
-def unpack_sd(ket):
-
-    bs = bin(ket)
-    states = []
-    for i, c in enumerate(bs[-1: 1: -1]):
-        if c == '1':
-            states.append(i)
-    return states
 
 
 def sd_delta(a, b):
@@ -334,13 +323,6 @@ def state_iterator(states):
                     yield p, q, r, s
 
 
-def phase(ket, c, d):
-
-    mask = abs(sum(map(lambda x: 2**x, d)) - sum(map(lambda x: 2**x, c)))
-    inv = bin(ket & mask).count('1')
-    return (-1)**(inv + 1)
-
-
 def shell_model_hamiltonian(ket, sds, states, inter):
 
     assert ket in sds, 'ket missing from possible SDs'
@@ -348,30 +330,31 @@ def shell_model_hamiltonian(ket, sds, states, inter):
 
     for p, q, r, s in state_iterator(states):
 
-        bp, bq, br, bs = 2**p, 2**q, 2**r, 2**s
-
-        if not(br & ket) or not(bs & ket):
+        if r not in ket or s not in ket:
             continue
 
-        if (bp & ket) and (p != r and p != s):
+        if p in ket and (p != r and p != s):
             continue
 
-        if (bq & ket) and (q != r and q != s):
+        if q in ket and (q != r and q != s):
             continue
 
         new_ket = ket.copy()
-        new_ket -= (ket & br) + (ket & bs)  # destruction operators
-        new_ket |= bq | bp                  # creation operators
+        new_ket.remove(r)
+        new_ket.remove(s)
+        new_ket.insert(0, q)
+        new_ket.insert(0, p)
+
+        inv, sorted_ket = merge_sort(new_ket)
 
         try:
-            i = sds.index(new_ket)
+            i = sds.index(sorted_ket)
             if p <= r:
                 mel = inter[p, q, r, s]
             else:
                 mel = inter[r, s, p, q]
 
-            ph = phase(ket, p, q, -r, -s)
-            col[i] += ph * mel
+            col[i] += (-1)**inv * mel
 
         except ValueError:
             # Not in the list of SDs
@@ -517,10 +500,9 @@ def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=F
 if __name__ == '__main__':
     sps, mel = load_interaction('usdb.txt')
     sds = slater(2, sps, total_m=3)
-    sd_state_rep = [unpack_sd(x) for x in sds]
     print('Found {} slater determinants:'.format(len(sds)),
-          sd_state_rep, sep='\n')
-    sd_file_rep = (np.array(sd_state_rep) + 1).tolist()
+          sds, sep='\n')
+    sd_file_rep = (np.array(sds) + 1).tolist()
     print('In the file\'s numbering, that is',
           sd_file_rep, sep='\n')
     hc = find_hamiltonian_matrix(sds, sps, mel)

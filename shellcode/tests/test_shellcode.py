@@ -45,13 +45,20 @@ class TestSlater(unittest.TestCase):
         sl = sc.slater(4, self.sps, 0)
         self.assertEqual(len(sl), 81)
 
-    def test_bitrep(self):
+    def test_values(self):
         sl = sc.slater(2, self.sps, 3)
-        exp = [2 ** 1 + 2 ** 11,
-               2 ** 4 + 2 ** 11,
-               2 ** 5 + 2 ** 10,
-               2 ** 9 + 2 ** 11]
+        exp = [[1, 11],
+               [4, 11],
+               [5, 10],
+               [9, 11]]
         self.assertListEqual(sl, exp)
+
+    def test_ret_types(self):
+        """Check that slater returns a list of lists."""
+        sl = sc.slater(2, self.sps, 3)
+        self.assertTrue(isinstance(sl, list))
+        for item in sl:
+            self.assertTrue(isinstance(item, list))
 
 
 class TestSDdelta(unittest.TestCase):
@@ -118,39 +125,3 @@ class TestFindHamiltonianMatrix(unittest.TestCase):
 
     def test_hermitian(self):
         nptest.assert_allclose(self.hmat.T, self.hmat)
-
-class TestPhase(unittest.TestCase):
-    """Tests for function phase"""
-
-    def test_examples(self):
-        """Tests the examples from the problem statement."""
-        self.assertEqual(sc.phase(0b01011, -2), -1)
-        self.assertEqual(sc.phase(0b10011, -2), -1)
-        self.assertEqual(sc.phase(0b11001, -2), 1)
-        self.assertEqual(sc.phase(0b11010, -2), 1)
-
-    def test_two(self):
-        ket = sum(map(lambda x: 2**x, [1, 2, 4, 5]))
-        self.assertEqual(sc.phase(ket, 3, -4), 1)
-
-    def test_three(self):
-        ket = sum(map(lambda x: 2**x, [1, 2, 4, 5]))
-        self.assertEqual(sc.phase(ket, 3, 6, -4, -2), -1)
-
-    def test_all_destroyed(self):
-        """If all contained states are destroyed, phase is 1."""
-        ket_lists = combinations(range(12), 2)
-        for kl in ket_lists:
-            ket = sum(map(lambda x: 2**x, kl))
-            for fk in ket_lists:
-                self.assertEqual(sc.phase(ket, c=fk, d=kl), 1,
-                                 msg='Destroyed {}, created {}, ket{}'.format(kl, fk, kl))
-
-class TestUnpackSD(unittest.TestCase):
-
-    def test_unpack(self):
-        sds = list(range(6))
-        states = [[], [0], [1], [0, 1], [2], [0, 2]]
-        for s, t in zip(sds, states):
-            self.assertListEqual(sc.unpack_sd(s), t,
-                                 msg='Failed for sd {}'.format(s))
