@@ -2,7 +2,7 @@ import unittest
 import shellcode as sc
 import numpy as np
 import numpy.testing as nptest
-from itertools import permutations
+from itertools import permutations, combinations
 
 
 class TestSpStates(unittest.TestCase):
@@ -99,3 +99,58 @@ class TestFindEigenvalues(unittest.TestCase):
         res = sc.find_pairing_hamiltonian_eigenvalues(4, 4, 0, True, g=0)
         exp = np.array([2., 4., 6., 6., 8., 10.])
         nptest.assert_equal(res, exp)
+
+class TestFindHamiltonianMatrix(unittest.TestCase):
+
+    def setUp(self):
+        self.sps, self.mel = sc.load_interaction('../usdb.txt')
+        self.sds = sc.slater(2, self.sps, total_m=3)
+        self.hmat = sc.find_hamiltonian_matrix(self.sds, self.sps, self.mel)
+
+    def test_square(self):
+        sh = self.hmat.shape
+        self.assertEqual(len(sh), 2)
+        self.assertEqual(sh[0], sh[1])
+
+    def test_abs_symmetric(self):
+        """Make sure the matrix is at least sort of symmetric."""
+        nptest.assert_allclose(np.abs(self.hmat.T), np.abs(self.hmat))
+
+    def test_hermitian(self):
+        nptest.assert_allclose(self.hmat.T, self.hmat)
+
+class TestPhase(unittest.TestCase):
+    """Tests for function phase"""
+
+    def test_examples(self):
+        """Tests the examples from the problem statement."""
+        self.assertEqual(sc.phase(0b01011, -2), -1)
+        self.assertEqual(sc.phase(0b10011, -2), -1)
+        self.assertEqual(sc.phase(0b11001, -2), 1)
+        self.assertEqual(sc.phase(0b11010, -2), 1)
+
+    def test_two(self):
+        ket = sum(map(lambda x: 2**x, [1, 2, 4, 5]))
+        self.assertEqual(sc.phase(ket, 3, -4), 1)
+
+    def test_three(self):
+        ket = sum(map(lambda x: 2**x, [1, 2, 4, 5]))
+        self.assertEqual(sc.phase(ket, 3, 6, -4, -2), -1)
+
+    def test_all_destroyed(self):
+        """If all contained states are destroyed, phase is 1."""
+        ket_lists = combinations(range(12), 2)
+        for kl in ket_lists:
+            ket = sum(map(lambda x: 2**x, kl))
+            for fk in ket_lists:
+                self.assertEqual(sc.phase(ket, c=fk, d=kl), 1,
+                                 msg='Destroyed {}, created {}, ket{}'.format(kl, fk, kl))
+
+class TestUnpackSD(unittest.TestCase):
+
+    def test_unpack(self):
+        sds = list(range(6))
+        states = [[], [0], [1], [0, 1], [2], [0, 2]]
+        for s, t in zip(sds, states):
+            self.assertListEqual(sc.unpack_sd(s), t,
+                                 msg='Failed for sd {}'.format(s))

@@ -38,6 +38,7 @@ This does the whole calculation in one step.
 import numpy as np
 from itertools import combinations
 from functools import wraps
+from math import copysign
 
 
 def numpyize(func):
@@ -178,7 +179,7 @@ def load_interaction(filename):
         The matrix elements
     """
     states = []
-    mels = []
+    mels = {}
     with open(filename) as inter:
         for line in inter:
             if line[0] == '#':
@@ -189,7 +190,8 @@ def load_interaction(filename):
             elif len(parts) == 6:
                 states.append(parts)
             elif len(parts) == 5:
-                mels.append(parts)
+                indices = tuple(map(lambda x: x - 1, parts[0:4]))
+                mels[indices] = parts[4]
     return states, mels
 
 
@@ -224,6 +226,15 @@ def slater(n_particles, states, total_m):
             sds.append(np.sum(2**x))
 
     return sds
+
+def unpack_sd(ket):
+
+    bs = bin(ket)
+    states = []
+    for i, c in enumerate(bs[-1: 1: -1]):
+        if c == '1':
+            states.append(i)
+    return states
 
 
 def sd_delta(a, b):
@@ -323,6 +334,61 @@ def state_iterator(states):
                     yield p, q, r, s
 
 
+def phase(ket, c, d):
+
+    mask = abs(sum(map(lambda x: 2**x, d)) - sum(map(lambda x: 2**x, c)))
+    inv = bin(ket & mask).count('1')
+    return (-1)**(inv + 1)
+
+
+def shell_model_hamiltonian(ket, sds, states, inter):
+
+    assert ket in sds, 'ket missing from possible SDs'
+    col = np.zeros(len(sds))
+
+    for p, q, r, s in state_iterator(states):
+
+        bp, bq, br, bs = 2**p, 2**q, 2**r, 2**s
+
+        if not(br & ket) or not(bs & ket):
+            continue
+
+        if (bp & ket) and (p != r and p != s):
+            continue
+
+        if (bq & ket) and (q != r and q != s):
+            continue
+
+        new_ket = ket.copy()
+        new_ket -= (ket & br) + (ket & bs)  # destruction operators
+        new_ket |= bq | bp                  # creation operators
+
+        try:
+            i = sds.index(new_ket)
+            if p <= r:
+                mel = inter[p, q, r, s]
+            else:
+                mel = inter[r, s, p, q]
+
+            ph = phase(ket, p, q, -r, -s)
+            col[i] += ph * mel
+
+        except ValueError:
+            # Not in the list of SDs
+            continue
+
+        except KeyError:
+            # The matrix element is not in the list from the file
+            # Assume it must be zero
+            continue
+
+    # i = sds.index(ket)
+    # spl = map(lambda x: xi * (states[x][0] - 1), ket)
+    # col[i] += sum(spl)
+
+    return col
+
+
 def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     """Creates a column of the pairing Hamiltonian matrix.
 
@@ -392,7 +458,7 @@ def pairing_hamiltonian(ket, sds, states, xi=1, g=1):
     return col
 
 
-def find_hamiltonian_matrix(sds, states, **kwargs):
+def find_hamiltonian_matrix(sds, states, inter, **kwargs):
     """Finds the Hamiltonian matrix.
 
     Parameters
@@ -414,7 +480,7 @@ def find_hamiltonian_matrix(sds, states, **kwargs):
     hmat = np.zeros((n, n))
 
     for j in range(n):
-        hmat[:, j] = pairing_hamiltonian(sds[j], sds, states, **kwargs)
+        hmat[:, j] = shell_model_hamiltonian(sds[j], sds, states, inter)
 
     return hmat
 
@@ -451,5 +517,11 @@ def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=F
 if __name__ == '__main__':
     sps, mel = load_interaction('usdb.txt')
     sds = slater(2, sps, total_m=3)
-    print(sds)
-    print(len(sds), 'slater determinants')
+    sd_state_rep = [unpack_sd(x) for x in sds]
+    print('Found {} slater determinants:'.format(len(sds)),
+          sd_state_rep, sep='\n')
+    sd_file_rep = (np.array(sd_state_rep) + 1).tolist()
+    print('In the file\'s numbering, that is',
+          sd_file_rep, sep='\n')
+    hc = find_hamiltonian_matrix(sds, sps, mel)
+    print('The matrix was:', hc, sep='\n')
