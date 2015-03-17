@@ -459,6 +459,10 @@ def find_hamiltonian_matrix(sds, states, inter):
             hmat[i, j] += int_energy * (-1)**inv
             hmat[j, i] = hmat[i, j]
 
+    states = np.asanyarray(states)
+    for i, ket in enumerate(sds):
+        hmat[i, i] += states[ket, -1].sum()
+
     return hmat
 
 
