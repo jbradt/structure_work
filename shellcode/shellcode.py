@@ -38,6 +38,7 @@ This does the whole calculation in one step.
 import numpy as np
 from itertools import combinations
 from functools import wraps
+from sys import argv
 
 
 def numpyize(func):
@@ -466,45 +467,23 @@ def find_hamiltonian_matrix(sds, states, inter):
     return hmat
 
 
-def find_pairing_hamiltonian_eigenvalues(nparticles, pmax, total_m, pairs_only=False, **kwargs):
-    """Find the eigenvalues of the pairing Hamiltonian matrix.
+def find_eigenvalues(num_particles, total_m):
 
-    This function just wraps all of the above up into one package.
-
-    Parameters
-    ----------
-    nparticles : int
-        The number of particles
-    pmax : int
-        The number of single-particle levels, or the p value of the highest level
-    total_m : int
-        The total M of the allowed Slater determinants
-    pairs_only : bool, optional
-        Whether to restrict the calculation to pairs only
-    **kwargs
-        The remaining arguments are passed to the Hamiltonian function
-
-    Returns
-    -------
-    evs : ndarray
-        A list of the eigenvalues, which might not be sorted.
-    """
-    states = np.array(list(sp_states(pmax, 0.5)))
-    dets = slater(nparticles, states, total_m, pairs_only)
-    hmat = find_hamiltonian_matrix(dets, states, **kwargs)
-    evs = np.linalg.eigvalsh(hmat)
-    return evs
-
-if __name__ == '__main__':
     sps, mel = load_interaction('usdb.txt')
-    sds = slater(4, sps, total_m=0)
+    sds = slater(num_particles, sps, total_m)
     print('Found {} slater determinants:'.format(len(sds)),
           sds, sep='\n')
-    sd_file_rep = (np.array(sds) + 1).tolist()
-    print('In the file\'s numbering, that is',
-          sd_file_rep, sep='\n')
     hc = find_hamiltonian_matrix(sds, sps, mel)
     print('The matrix was:', hc, sep='\n')
     assert is_hermitian(hc), 'the matrix is not Hermitian!'
     evs = np.linalg.eigvalsh(hc)
+    print('The eigenvalues are:')
     print(evs)
+
+
+if __name__ == '__main__':
+    if len(argv) != 3:
+        exit('Usage: python3 shellcode.py [num_particles] [total_m]')
+
+    int_args = [int(a) for a in argv[1:]]
+    find_eigenvalues(num_particles=int_args[0], total_m=int_args[1])
