@@ -305,14 +305,10 @@ def find_eigenvalues(num_particles, total_2m):
 
     sps, mel = load_interaction(os.path.join(package_dir, 'usdb.txt'))
     sds = slater(num_particles, sps, total_2m / 2)
-    print('Found {} slater determinants:'.format(len(sds)),
-          sds, sep='\n')
     hc = find_hamiltonian_matrix(sds, sps, mel)
-    print('The matrix was:', hc, sep='\n')
     assert is_hermitian(hc), 'the matrix is not Hermitian!'
     evs = np.linalg.eigvalsh(hc)
-    print('The eigenvalues are:')
-    print(evs)
+    return evs
 
 
 if __name__ == '__main__':
@@ -320,4 +316,4 @@ if __name__ == '__main__':
         exit('Usage: python3 shellcode.py [num_particles] [2 * total_m]')
 
     int_args = [int(a) for a in argv[1:]]
-    find_eigenvalues(num_particles=int_args[0], total_2m=int_args[1])
+    print(find_eigenvalues(num_particles=int_args[0], total_2m=int_args[1]))
