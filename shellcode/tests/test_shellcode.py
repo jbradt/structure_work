@@ -3,6 +3,7 @@ import shellcode as sc
 import numpy as np
 import numpy.testing as nptest
 from itertools import permutations, combinations
+from math import factorial
 
 
 class TestSlater(unittest.TestCase):
@@ -22,6 +23,17 @@ class TestSlater(unittest.TestCase):
     def test_4part_0m(self):
         sl = sc.slater(4, self.sps, 0)
         self.assertEqual(len(sl), 81)
+
+    def test_multiplicity(self):
+        """Checks that the correct number of determinants are found"""
+        nst = len(self.sps)
+        for nparts in range(0, 8, 2):
+            exp_n = factorial(nst) / (factorial(nst - nparts) * factorial(nparts))
+            n = 0
+            for m in range(-8, 9):
+                sds = sc.slater(nparts, self.sps, m)
+                n += len(sds)
+            self.assertEqual(n, exp_n, 'wrong multip for nparts={}'.format(nparts))
 
     def test_values(self):
         sl = sc.slater(2, self.sps, 3)
