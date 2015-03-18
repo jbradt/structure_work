@@ -305,6 +305,8 @@ def find_eigenvalues(num_particles, total_2m):
 
     sps, mel = load_interaction(os.path.join(package_dir, 'usdb.txt'))
     sds = slater(num_particles, sps, total_2m / 2)
+    if len(sds) == 0:
+        return np.array([])
     hc = find_hamiltonian_matrix(sds, sps, mel)
     assert is_hermitian(hc), 'the matrix is not Hermitian!'
     evs = np.linalg.eigvalsh(hc)
