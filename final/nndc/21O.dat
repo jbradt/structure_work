@@ -1,0 +1,47 @@
+ 21O     ADOPTED LEVELS, GAMMAS                                  ENSDF    201503
+ 21O   H TYP=FUL$AUT=R.B. FIRESTONE$CUT=15-Jan-2015$CIT=ENSDF$
+ 21O   Q 8110      123806    1220990   60-15394  21    2012WA38
+ 21O  c  Populated by {+22}N |b-n decay (2003Yo02), T{-1/2}=16.5 ms {I+85-48}.
+ 21O  cL J$For lower levels from shell model calculations (2004St08), although
+ 21O 2cL systematics of T=3/2 levels suggests that the 1218 and 2133 levels
+ 21O 3cL should have negative parity. For higher level assuming allowed |b
+ 21O 4cL decay from J|p=1/2-.
+ 21O   XD21N B- DECAY:83 MS
+ 21O   XE22N B-N DECAY:20 MS
+ 21O   XA18O(18O,15O)
+ 21O   XB9BE(36S,X)
+ 21O   XF2H(20O,P),(20O,PG)
+ 21O   L 0.0         (5/2+)            3.42 S    10
+ 21O 2 L %B-=100
+ 21O X L XREF=ABDEF
+ 21O  cL T$From 1981Al07
+ 21O  cL J$From single-particle removal cross section compared to extended
+ 21O 2cL Glauber model calculations, weighted by shell model spectroscopic
+ 21O 3cL factors (2000Sa47,1989Ca25).
+ 21O   L 1220       3 (1/2+)
+ 21O X L XREF=ABDEF
+ 21O   G  1220      3  100
+ 21O   L 2133       5
+ 21O X L XREF=ABF
+ 21O   G  2133      5  100
+ 21O   L  3026      6 (7/2+)
+ 21O X L XREF=AB
+ 21O   G  883       4  59     8
+ 21O   G  3026      8  100    8
+ 21O   L  3073     10 (7/2+)
+ 21O X L XREF=AB
+ 21O   G  3073     10  100
+ 21O   L 4.77E3    10 3/2+
+ 21O X L XREF=F
+ 21O   L 4927      12 (9/2+)
+ 21O X L XREF=ABE
+ 21O   L 6.14E3    8   (1/2-,3/2-)
+ 21O X L XREF=DF
+ 21O   L 6.80E3    10  (1/2-,3/2-)
+ 21O X L XREF=D
+ 21O   L 6.91E3    7   (1/2-,3/2-)
+ 21O X L XREF=D
+ 21O   L 9.02E3    12  (1/2-,3/2-)
+ 21O X L XREF=D
+ 21O   L 9.04E3    22  (1/2-,3/2-)
+ 21O X L XREF=D

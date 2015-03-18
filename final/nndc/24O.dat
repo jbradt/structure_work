@@ -1,0 +1,84 @@
+ 24O     ADOPTED LEVELS                                          ENSDF    201308
+ 24O   H TYP=FUL$AUT=B. SINGH AND B. PRITYCHENKO$CUT=20-AUG-2013$CIT=ENSDF$
+ 24O   H TYP=FUL$AUT=R.B. FIRESTONE$CIT=NDS 108, 2319 (2007)$CUT=3-Oct-2006$
+ 24O   Q 10.94E3   13 4.19E3 14 27110  SY-21.48E326    2012WA38
+ 24O  CQ $ Estimated uncertainty=320 for SP
+ 24O  CQ $ ^S(2n)=6930 120, ^S(2p)=49670 270, Q(B-N)=7120 120 (2012Wa38)
+ 24O  c  1970Ar09: {+24}O produced and identified in {+232}Th({+22}Ne,X)
+ 24O 2c  reaction at 174 MeV, measured yield. A total of |?30 events were
+ 24O 3c  assigned to {+24}O.
+ 24O  c  1990Mu06 (also 1990Gu02): {+181}Ta({+48}Ca,x) E=2100 MeV.  Mass
+ 24O 2c  separation, semiconductor telescope, 4|p neutron detector, measured
+ 24O 3c  half-life and delayed neutron emission probability
+ 24O  c  1999Re16 (also 2001Pe14): Be({+36}S,x) E=78 MeV.  GANIL, mass
+ 24O 2c  separation, tof. Measured half-life and delayed neutron emission
+ 24O 3c  probability
+ 24O  c  2003Th07 (also 2003Th10): {+12}C({+25}F,{+24}O) E=50 MeV/nucleon.
+ 24O 2c  Secondary beam from {+48}Ca(Be,x) E=110 MeV/nucleon fragmentation.
+ 24O 3c  Mass separation, E-|DE Si surface barrier detectors.  Measured
+ 24O 4c  production of {+24}O with |s=3.8 mb {I6}.
+ 24O  c  2004St08, 2004St10: C({+36}S,X) E=77.5 MeV/nucleon.  Mass separation,
+ 24O 2c  tof, 74 BaF{-2} |g-ray detectors.  No gammas observed suggesting that
+ 24O 3c  first 2+ level is unbound to particle emission.
+ 24O  c  2009Ka14 propose doubly-closed shell nature of {+24}O from experimental
+ 24O 2c  study of neutron knockout from {+24}O in C(24O,23O) reaction
+ 24O  c  Other references for measurement of yields in fragmentation reactions:
+ 24O 2c  2012Kw02, 2007No13, 2004Th15, 2003Oz01, 2000Oz01
+ 24O  d  1996Fa01: search for {+26}O isotope
+ 24O  c  Precise mass measurements: 2007Ju03. Others: 1991Or01, 1988Wo09,
+ 24O 2c  1987Gi05
+ 24O  c  Nuclear structure calculations (levels, J, |p, shell-model):
+ 24O  c  2012Br14, 2012Ha19, 2006Vo14 (also 2005Vo01)
+ 24O  cL T(A)$ From 2009Ho01 for decay to 1/2+ g.s. in {+23}O) from Breit-Wigner
+ 24O 2cL line-shape analysis of {+23}O-neutron coincidence spectrum
+ 24O  CL T$LABEL=WIDTH
+ 24O   XA25O N DECAY (6.3E-9 PS)
+ 24O   XB26O 2N DECAY (4.5 PS)
+ 24O   XC1H(24O,P')
+ 24O   XD9BE(26F,NX)
+ 24O   XE9BE(26NE,2PX)
+ 24O   L 0            0+               65 MS     5
+ 24O 2 L %B-=100$ %B-N=58 12 (1990MU06)
+ 24O X L XREF=ABCDE
+ 24O  cL $ Measured absorption mean radius: r{-0}{+2}=1.213 fm{+2} {I47}
+ 24O 2cL (2006Kh08) in Si({+24}O,X) at GANIL facility
+ 24O  cL $ Measured mean matter radius=3.19 fm {+13} (2001Oz03) in
+ 24O 2cL C({+24}O,X) reaction at GSI facility
+ 24O  cL T$from 1999Re16 from decay curves for |g rays (also reported as
+ 24O 2cL 67 ms {I10} in 2001Pe14). Other: 61 ms {I+32-19} (1990Mu06)
+ 24O  cL %B-N$from 1990Mu06 based on {+24}O |b- decay scheme.
+ 24O 2cL Other values: 18 {I6} (1999Re16; also reported as 12 {I6} in 2001Pe14)
+ 24O   L  4.79E3   11      2+           0.05 MEV +21-5                      A
+ 24O 2 L %N AP 100
+ 24O 2 L B2=0.15 4 (2012TS03)
+ 24O X L XREF=CD
+ 24O  cL E$ weighted average of 4.75 MeV {I14} (2012Ts03) and 4.82 MeV {I11}
+ 24O 2cL (2009Ho01)
+ 24O  cL J$ from |s(|q) distribution and DWBA analysis (2012Ts03); also
+ 24O 2cL in agreement with theoretical prediction (2012Br14,2012Ha19,2006Vo14)
+ 24O  cL $ |b{-2} from (p,p') (2012Ts03)
+ 24O  cL $ Possible configuration=|n1s{-1/2}{+-1}~#|n0d{-3/2}{+1}
+ 24O  cL $ No |g rays observed in the work of 2004St08 (also 2004St10),
+ 24O 2cL suggesting that this state is unbound to particle emission
+ 24O   L  5.37E3   12     (1+)          0.03 MEV +12-3                      A
+ 24O 2 L %N AP 100
+ 24O X L XREF=CD
+ 24O  cL E$ weighted average of 5.25 MeV {I16} (2012Ts03) and 5.43 MeV {I12}
+ 24O 2cL (2009Ho01)
+ 24O  cL J$ from |s(|q) distribution and DWBA analysis (2012Ts03); also
+ 24O 2cL in agreement with theoretical prediction (2012Br14,2012Ha19,2006Vo14)
+ 24O  cL $ Possible configuration=|n1s{-1/2}{+-1}~#|n0d{-3/2}{+1}
+ 24O   L 7.6E3     AP   (+)             0.1 MEV
+ 24O 2 L %2N AP 100 (2011HO05,2012TS03)
+ 24O X L XREF=CD
+ 24O  cL E$ from observed resonance at |? 0.6 MeV (2011Ho05), deduced from the
+ 24O 2cL invariant mass equations in coincidence with another decay at
+ 24O 3cL E(n)<0.1 MeV, considered as corresponding to a previously observed
+ 24O 4cL decay of a 2.8 MeV, (5/2+) state (45 keV {I2} resonance) in {+23}O to
+ 24O 5cL the ground state of {+22}O. 2012Ts03 report a group at |?7.4 MeV from
+ 24O 6cL decay energy (resonance) of |?3.2 MeV, and suggest negative parity
+ 24O 7cL based on possible configuration=|n1s{-1/2}{+-1}~#|n(fp){+1}
+ 24O  cL J$ from Monte-Carlo simulations, both resonances (0.6 MeV in {+24}O
+ 24O 2cL and 45 keV in {+23}O) have L=2 (0d{-3/2} neutron decay) (2011Ho05)
+ 24O  cL T$ from 2011Ho05
+ 24O  cL $ Decays by a two-neutron sequential cascade to {+22}O g.s.

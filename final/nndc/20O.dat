@@ -1,0 +1,57 @@
+ 20O     ADOPTED LEVELS, GAMMAS        1998TI06                  98NP     199807
+ 20O   H TYP=MOD$AUT=J. Blachot$COM=added T reference$DAT=15-FEB-2001$
+ 20O   H TYP=FUL$AUT=D. R. TILLEY, C. CHEVES, J. KELLEY, S. RAMAN, H. WELLER$
+ 20O 2 H CIT=NP A636, 249 (1998)$CUT=21-APR-1997$
+ 20O   Q 3814.3    21 7608   3  19352  16-12322  4     1997AU04
+ 20O   XA18O(T,P)
+ 20O   XB18O(A,2P)
+ 20O   XC18O(18O,16O)
+ 20O  C  See other reaction references in 1998Ti06
+ 20O  CL E(A)$Decay mode not specified
+ 20O   L 0.0          0+               13.51 S   5
+ 20O 2 L %B-=100$ ISPIN=2
+ 20O  CL T$Weighted average: 13.49 S 5 (1974AL09) 13.57 S 1 (1970MA42)
+ 20O 3 L XREF=ABC
+ 20O   L 1673.68   15 2+               7.3 PS    3
+ 20O 2 L MOMM1=-0.70 3 (1989RA17)$ WIDTHG=6.28E-5 EV 24
+ 20O 3 L XREF=ABC
+ 20O   G 1673.60   15 100.      [E2]
+ 20O 2 G BE2W=1.80 7
+ 20O   L 3570      7  4+
+ 20O 2 L XREF=ABC
+ 20O   L 4072      4  2+
+ 20O 2 L XREF=AC
+ 20O   L 4456      5  0+
+ 20O 2 L XREF=AC
+ 20O   L 4850      15 4+
+ 20O 2 L XREF=A
+ 20O   L 5002      6
+ 20O 2 L XREF=A
+ 20O   L 5234      5  2+
+ 20O 2 L XREF=A
+ 20O   L 5304      6  2+
+ 20O 2 L XREF=A
+ 20O   L 5387      6  0+
+ 20O 2 L XREF=A
+ 20O   L 5614      3  (3-)
+ 20O 2 L XREF=A
+ 20O   L 6555      8  (2)
+ 20O 2 L XREF=A
+ 20O   L 7252      8  5-
+ 20O 2 L XREF=A
+ 20O   L 7622      7  3- & 4+                                               A
+ 20O 2 L XREF=A
+ 20O   L 7754      5  4+                                                    A
+ 20O 2 L XREF=AB
+ 20O   L 7855      6  (5-)                                                  A
+ 20O 2 L XREF=AB
+ 20O   L 8554      8  4+                                                    A
+ 20O 2 L XREF=A
+ 20O   L 8804      9  3-                                                    A
+ 20O 2 L XREF=AB
+ 20O   L 8962      21 (0+)                                                  A
+ 20O 2 L XREF=A
+ 20O   L 9770      8  0+                                                    A
+ 20O 2 L XREF=A
+ 20O   L 10125     11 2+                                                    A
+ 20O 2 L XREF=AB

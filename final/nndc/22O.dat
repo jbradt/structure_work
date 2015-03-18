@@ -1,0 +1,35 @@
+ 22O     ADOPTED LEVELS, GAMMAS                                  05NDS    200512
+ 22O   H TYP=ERR$AUT=B. Singh$DAT=15-Sep-2011$COM=Corrected T1/2 (3199)$
+ 22O   H TYP=FUL$AUT=R.B. FIRESTONE$CIT=NDS 106, 1 (2005)$CUT=1-Nov-2004$
+ 22O   Q 6490      606850    6023.26E+311-18070  60    2003AU03
+ 22O  cL J$From shell model
+ 22O  cL E$Level energy assignments based on |g-ray energies and placement based
+ 22O 2cL on the shell model
+ 22O   XABE(36S,X),12C(23O,XNG)
+ 22O   XB197AU(22O,22O')
+ 22O   L 0           0+                2.25 S    9
+ 22O 2 L %B-=100$%B-N LT 22
+ 22O  cL T$From 2005We06.Other: Other values: 2.25 s 15 (1989Hu07),
+ 22O 2cL 0.91 s 35 (1982Mu08), 2.9 s 15 (1986Du07)
+ 22O  cL %B-N$from 1995ReZZ.  Other reference: 1979Ba31.
+ 22O X L XREF=AB
+ 22O   L  3199      8 (2+)              0.48 PS  20
+ 22O X L XREF=AB
+ 22O  cL T$From {+197}Au({+22}O,{+22}O')
+ 22O   G  3199      8  100
+ 22O   L  4582      9 (3+)
+ 22O X L XREF=A
+ 22O   G  1383      4  100
+ 22O   L  4909     90 (0+)                                                     ?
+ 22O X L XREF=A
+ 22O   G  1710     90  100                                                     ?
+ 22O   L  5800        (1-,0-)                                                  ?
+ 22O   G  1300                                                                 ?
+ 22O   G  2600                                                                 ?
+ 22O   L  6509     90 (2+)
+ 22O X L XREF=A
+ 22O   G  3310     90
+ 22O   L  6936     10 (4+)
+ 22O X L XREF=A
+ 22O   G  2354      6  100   35
+ 22O   G  3710     90  75    35

@@ -1,0 +1,69 @@
+ 26O     ADOPTED LEVELS                                          ENSDF    201412
+ 26O   H TYP=FUL$AUT=BALRAJ SINGH$CIT=ENSDF$CUT=15-DEC-2014$
+ 26O   H TYP=FUL$AUT=P. M. ENDT, J.BLACHOT, R.B. FIRESTONE, and J.ZIPKIN$
+ 26O 2 H CIT=NP A633, 1 (1998)$CUT=1-JAN-2000$
+ 26O   Q 1607E1    17  69E1  11 28540  SY-2128E1 29    2012WA38
+ 26O  cQ $Estimated uncertainty=530 for S(p) (2012Wa38)
+ 26O  cQ $S(2n)=-90 {I110}, Q(|b{+-}n)=15300 {I170} (2012Wa38)
+ 26O  CQ $Q- and Q(B-N) from 2012Wa38 are listed here but these decay modes
+ 26O 2CQ do not occur for {+26}O since this nuclide is most likely unstable
+ 26O 3CQ towards two-neutron emission
+ 26O  c  1990Gu02: Ta({+48}Ca,X),E=2112 MeV; deduced evidence for particle
+ 26O 2c  instability
+ 26O  c  1996Fa01: {+9}Be({+40}Ar,X),E=90 MeV/nucleon; 260 events expected but
+ 26O 2c  none observed; deduced particle unstable characteristics
+ 26O  c  1999Dl01: {+181}Ta({+36}S,X),E=75 MeV/nucleon; {+197}Au({+32}S,X),
+ 26O 2c  E=9.1, 16.1 MeV. {+26}O not observed, suggesting its unbound nature
+ 26O  c  2000Oz01: {+9}Be({+40}Ar,X),E=1 GeV/nucleon; deduced particle
+ 26O 2c  instability for {+26}O
+ 26O  c  2004Lu19: Ta({+40}Ar,X),E=94.1 MeV/nucleon; measured fragments yields;
+ 26O 2c  deduced no evidence for {+26}O
+ 26O  c  2005Sc20: C({+27}F,X),({+29}Ne,X),E|?90 MeV/nucleon; measured fragment
+ 26O 2c  yields; deduced no evidence for {+26}O
+ 26O  c  2012Lu07, 2013Ko10 (also 2013Th04): {+26}O produced in
+ 26O 2c  {+9}Be({+27}F,{+26}O) reaction at E=82 MeV/nucleon. Measured E(n),
+ 26O 3c  I(n), (fragment)n coin, half-life. See details in {+9}Be({+27}F,{+26}O)
+ 26O 4c  dataset
+ 26O  c  2013Ca18 (also 2012CaZT): {+26}O produced in one-proton knockout
+ 26O 2c  reaction on {+27}F beam on hydrogen (CH{-2}) target. {+27}F beam
+ 26O 3c  produced in fragmentation of 490 MeV/nucleon {+40}Ar beam on {+9}Be
+ 26O 4c  target at GSI using R3B-LAND setup. Measured fragment, one-neutron and
+ 26O 5c  two-neutron correlated events; deduced decay energy, resonance energy,
+ 26O 6c  width and lifetime of {+24}O+n+n system.
+ 26O  c  Theoretical structure calculations:
+ 26O  c  2014Bo25: calculated energy levels, J, |p.
+ 26O  c  2014Ha29: calculated energies of ground state and first 2+ state
+ 26O  c  2013Gr08: calculated half-life of g.s. as a function of decay energy
+ 26O  c  2013He15: calculated ground-state energy
+ 26O  c  2012Ma50: calculated neutron binding energy, rms nuclear radius,
+ 26O 2c  energy of the first excited state
+ 26O   XA9BE(27F,26O)
+ 26O   XBC(27F,26O)
+ 26O   L  0                0+           4.5 PS   +32-34
+ 26O 2 L %2N=100
+ 26O X L XREF=AB
+ 26O  cL $Decay mode from 2013Ko10 (also 2012Lu07) and 2013Ca18
+ 26O  cL E$deduced decay energy=150 {I+50-150} (2012Lu07) from fit of the
+ 26O 2cL experimental three-body ({+24}O+n+n) decay spectrum in
+ 26O 3cL {+9}Be({+27}F,{+26}O) reaction with Monte Carlo simulation
+ 26O 4cL including the decay from the ground state and first excited state.
+ 26O 5cL Other: |<120 keV at 95% C.L. and |<40 keV at 68% C.L. from
+ 26O 6cL C({+27}F,{+26}O) reaction (2013Ca18). This value can be compared with
+ 26O 7cL S(2n)=-90 {I110} (2012Wa38)
+ 26O  cL T$from 2013Ko10 based on fitting of relative velocity distribution
+ 26O 2cL of {+24}O and each of the two neutrons with Monte Carlo simulation
+ 26O 3cL and as function of half-life parameter. Half-life of 4.5 ps {I+11-15}
+ 26O 4cL (stat) {I30} (syst) is deduced at 82% confidence level, suggesting the
+ 26O 5cL possibility of two-neutron radioactive decay. Evaluator has added the
+ 26O 6cL uncertainties in quadrature. Other: |<4 ns (2013Ca18) at 95% C.L.
+ 26O   L 2E3       AP
+ 26O X L XREF=A
+ 26O  cL E$possible first excited state from resonance energy at approximately
+ 26O 2cL 2 MeV (2013Ko10). Note that position of this state in the analysis is
+ 26O 3cL based on predictions from the continuum shell model calculations.
+ 26O 4cL This level was not reported by 2013Ca18
+ 26O   L 4.19E3    21
+ 26O X L XREF=B
+ 26O  cL E$from measured E{-r}=4225 keV {I+227-176} (2013Ca18) for
+ 26O 2cL for {+24}O+2n system, and measured E{-r}|<120 keV (2013Ca18) for g.s.
+ 26O 3cL This level was not seen in 2013Ko10
