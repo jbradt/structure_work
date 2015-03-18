@@ -204,11 +204,11 @@ def slater(n_particles, states, total_m):
 
     sds = []
     for x in combinations(indices, n_particles):
-        x = np.array(x)
+        x = list(x)
         s = states[x]
         m = s[:, 4].sum() / 2
         if total_m == m:
-            sds.append(x.tolist())
+            sds.append(x)
 
     return sds
 
