@@ -24,6 +24,9 @@ from itertools import combinations
 from functools import wraps
 from sys import argv
 
+# Get the directory the package is stored in
+import os
+package_dir = os.path.dirname(os.path.abspath(__file__))
 
 def numpyize(func):
     """Decorator that converts all array-like arguments to NumPy ndarrays.
@@ -300,7 +303,7 @@ def find_eigenvalues(num_particles, total_2m):
         The total spin projection, multiplied by two.
     """
 
-    sps, mel = load_interaction('usdb.txt')
+    sps, mel = load_interaction(os.path.join(package_dir, 'usdb.txt'))
     sds = slater(num_particles, sps, total_2m / 2)
     print('Found {} slater determinants:'.format(len(sds)),
           sds, sep='\n')
