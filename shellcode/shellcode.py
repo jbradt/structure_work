@@ -265,12 +265,14 @@ def find_hamiltonian_matrix(sds, states, inter):
                 continue
 
             new_ket = ket.copy()
-            new_ket.remove(r)
-            new_ket.remove(s)
-            new_ket.insert(0, q)
-            new_ket.insert(0, p)
+            new_ket[new_ket.index(s)] = q
+            new_ket[new_ket.index(r)] = p
 
             inv, sorted_ket = merge_sort(new_ket)
+
+            delta = sd_delta(ket, sorted_ket)
+            if delta > 2:
+                continue
 
             try:
                 j = sds.index(sorted_ket)
